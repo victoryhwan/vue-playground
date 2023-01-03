@@ -1,7 +1,10 @@
-<script setup lang="ts">
+<script>
 import { RouterLink, RouterView } from 'vue-router'
-</script>
 
+export default {
+
+}
+</script>
 <template>
   <header>
     <div class="wrapper">
@@ -13,9 +16,11 @@ import { RouterLink, RouterView } from 'vue-router'
       </nav>
     </div>
   </header>
-
+  <!-- <div>{{postFontSize}}</div>
+  <Global :msg="'타이틀'" @enlarge-text="postFontSize += 0.1"></Global> -->
   <RouterView />
 </template>
+
 
 <style scoped>
 header {
