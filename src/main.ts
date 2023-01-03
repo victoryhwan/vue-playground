@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import Global from './views/Global.vue'
 
 import './assets/main.css'
 import globalFunc from './globalFunc'
@@ -13,3 +14,4 @@ const app = createApp(App)
 app.use(router)
 
 app.mount('#app')
+app.component('Global', Global)
