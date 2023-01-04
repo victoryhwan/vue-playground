@@ -8,7 +8,19 @@
 
 <script setup>
 import Global from './Global.vue'
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
+
+const location = ref('북극')
+
+function updateLocation() {
+  location.value = '남극'
+}
+
+/**함수랑 변수를 자식한테 넘겨준다*/
+provide('location', {
+  location,
+  updateLocation
+})
 
 const postFontSize = ref(1)
 const Alert = () => { alert("!!") }
