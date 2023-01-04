@@ -2,9 +2,10 @@
 import { ref, nextTick } from 'vue'
 import axios from 'axios';
 import { reactive, computed } from 'vue'
+import { store } from '../stores/store'
 
 const count = ref(0)
-const users = reactive({data:[]})
+const users = reactive([])
 async function increment() {
   count.value++
 
@@ -18,13 +19,14 @@ async function increment() {
 
 async function clicker() {
   console.log("click")
-
+  store.increment()
   axios.get("https://jsonplaceholder.typicode.com/users/")
   .then( (res)=>{
     console.log(res)
     console.log(res.data)
-    users.data = res.data
+    users.value = res.data
     console.log(users)
+    
   })
 }
 </script>
@@ -45,7 +47,7 @@ async function clicker() {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in users.data" :key="user.id">
+      <tr v-for="user in users.value" :key="user.id">
         <td>{{ user.name }}</td>
         <td>{{ user.email }}</td>
       </tr>

@@ -1,10 +1,9 @@
-<script>
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import ComponentA from './components/ComponentA.vue'
 
-export default {
-
-}
 </script>
+
 <template>
   <header>
     <div class="wrapper">
@@ -14,13 +13,13 @@ export default {
         <RouterLink to="/inPatientList">입원환자명단</RouterLink>
         <RouterLink to="/outPatientList">외래환자명단</RouterLink>
       </nav>
+      <ComponentA />
+      
     </div>
   </header>
-  <!-- <div>{{postFontSize}}</div>
-  <Global :msg="'타이틀'" @enlarge-text="postFontSize += 0.1"></Global> -->
+
   <RouterView />
 </template>
-
 
 <style scoped>
 header {
