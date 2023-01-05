@@ -18,25 +18,32 @@ let param = {
   Ward : "%"
 }
 
+let docParam = {
+    DeptCd : "2150000000",
+    HosCd : "37100092",
+    MlGb : "ko",
+    OcpTyp : "0330",
+    RetrGb : "I",
+    UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
+}
+
 function getInPatientList() {
     const res = ref([]);
-
     onMounted(async()=>{
         res.value = (await axios.post(url+'get_getInPatientList'+version ,param)).data.body
     })
 
-	return { res }
+	return res
 }
 
 function getDoctorList(){
     const res = ref([]);
 
     onMounted(async()=>{
-        res.value = (await axios.post(url+'get_getDoctorListByDept'+version ,param)).data.body
+        res.value = (await axios.post(url+'get_getDoctorListByDept'+version ,docParam)).data.body
     })
 
-    console.log(res,"res")
-	return { res }
+	return res
 }
 
 export { getInPatientList, getDoctorList }

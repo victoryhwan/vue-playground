@@ -97,22 +97,22 @@ const selectedData = { //조회조건 데이터
 }
 
 // const dispData = ref([])
-const dispData = getInPatientList().res
+const dispData = getInPatientList()
 
 const changeSelectBoxDept = (data) => {
     selectedData.DeptCd = data.code
-    selectGroupData.doctorList = getDoctorList().res
-    dispData = getInPatientList().res
+    selectGroupData.doctorList = getDoctorList()
+    dispData = getInPatientList()
 }
 
 const changeSelectBoxDr = (data) => {
     selectedData.DrId = data.code
-    dispData = getInPatientList().res
+    dispData = getInPatientList()
 }
 
 const changeSelectBoxWard = (data) => {
     selectedData.Ward = data.code
-    dispData = getInPatientList().res
+    dispData = getInPatientList()
 }
 
 const openMenu = () => { }
