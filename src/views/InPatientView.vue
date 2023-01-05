@@ -1,36 +1,30 @@
-<script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios';
-
-const dispData = ref([])
-let url = 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/dcmc/api/get_getInPatientList/v4'
-let param = {
-  AdmiPlanYmd : "",
-  AdmiPlanYn : "N",
-  DeptCd : "2150000000",
-  DrId : "%",
-  HosCd : "37100092",
-  NurId : "",
-  OcpTyp : "0330",
-  RetrYmd : "20230105",
-  Room : "%",
-  UserId : "JR1zxnV15TN3W0g1sZtRY+SDyuhup0z052GS+iBB1Jlu2NQxCD+r9iXpZZUsgbUDmqFztWa4NsdNgZ999npeuMbfhrcfV5jtvLxBd4vGtvaByOJKwKxqVCvHdV58ACQ+ZFdecCcsKf0H4T6u/wPwPlKiUamGmzZZm22uHAkRRvE=",
-  Ward : "%"
-}
-
-onMounted(async()=>{
-  let res = await axios.post(url,param);
-  dispData.value = res.data.body
-})
-
-const openMenu = () => { }
-const clickedPatient = () => { }
-const setPatInfo = () => { }
-
-</script>
 <template>
   <div class="inPatientList">
-    <div class="py-4" v-if="dispData.length > 0">
+    <!-- 상단 조회조건 -->
+    <div class="search">
+      <div class="form-row">
+          <div class="col-6">
+            <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
+          </div>
+          <div class="col-6">
+            <SelectBoxComp :items="selectGroupData.doctorList" :value="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
+          </div>
+          <div class="col-12 mt-2">
+            <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
+          </div>
+          <!-- <div class="col-4">
+              <checkbox-component :id="'ch1'" :label-name="'입원예정'" :value="selectedData.checked" @checkbox-change="changeCheckBox"></checkbox-component>
+          </div>
+          <div class="col-4">
+              <calendar-component :id="'calendar'" :value="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></calendar-component>
+          </div>
+          <div class="col-4">
+              <button-component :btn-name="'조회'" @button-click="searchBtn"></button-component>
+          </div> -->
+      </div>
+    </div>
+    
+    <div class="py-4"><!-- v-if="dispData.length > 0"-->
       <div class="patient-cardbox" v-for="item in dispData" :key="item.id">
           <div class="group">
               <div class="pos">
@@ -65,11 +59,53 @@ const setPatInfo = () => { }
           </div>
       </div>
     </div>
-    <div v-else>
-      <div>dfdsfdf</div>
-    </div>
   </div>
 </template>
+
+<script setup>
+import SelectBoxComp from '@/components/SelectBoxComp.vue';
+import { getInPatientList, getDoctorList } from '../api/inPatientList.ts'
+
+/**변수 선언부*/
+const selectGroupData = {//조회조건 컴포넌트 데이터
+    deptList : [],
+    wardList : [],
+    doctorList : []
+}
+
+const selectedData = { //조회조건 데이터
+    DeptCd : '', //부서코드
+    Ward : '', //병동코드
+    DrId : '%',//의사Id
+    calendar : new Date(),  //TODO: 변경해야한다
+    calendarDisabled : true,
+    checked : false
+}
+
+// const dispData = ref([])
+const dispData = getInPatientList().res
+
+const changeSelectBoxDept = (data) => {
+    selectedData.DeptCd = data.code
+    selectGroupData.doctorList = getDoctorList().res
+    dispData = getInPatientList().res
+}
+
+const changeSelectBoxDr = (data) => {
+    selectedData.DrId = data.code
+    dispData = getInPatientList().res
+}
+
+const changeSelectBoxWard = (data) => {
+    selectedData.Ward = data.code
+    dispData = getInPatientList().res
+}
+
+const openMenu = () => { }
+const clickedPatient = () => { }
+const setPatInfo = () => { }
+
+</script>
 
 <style scoped>
 .pb-4, .py-4 {

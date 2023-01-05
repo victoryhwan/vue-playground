@@ -12,8 +12,7 @@ import ComponentA from './components/ComponentA.vue'
         <RouterLink to="/inPatientList">입원환자명단</RouterLink>
         <RouterLink to="/outPatientList">외래환자명단</RouterLink>
       </nav>
-      <component-a />
-      
+      <ComponentA />
     </div>
   </header>
 
