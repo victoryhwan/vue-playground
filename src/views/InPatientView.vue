@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios';
 
-let dispData = ref([])
+const dispData = ref([])
 let url = 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/dcmc/api/get_getInPatientList/v4'
 let param = {
   AdmiPlanYmd : "",
@@ -19,8 +19,8 @@ let param = {
 }
 
 onMounted(async()=>{
-  dispData = await axios.post(url,param);
-  dispData = dispData.data.body
+  let res = await axios.post(url,param);
+  dispData.value = res.data.body
 })
 
 
