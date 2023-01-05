@@ -1,69 +1,83 @@
 <template>
   <div class="inPatientList">
-    <!-- 상단 조회조건 -->
-    <div class="search">
-      <div class="form-row">
-          <div class="col-6">
-            <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
-          </div>
-          <div class="col-6">
-            <SelectBoxComp :items="selectGroupData.doctorList" :value="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
-          </div>
-          <div class="col-12 mt-2">
-            <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
-          </div>
-          <!-- <div class="col-4">
-              <checkbox-component :id="'ch1'" :label-name="'입원예정'" :value="selectedData.checked" @checkbox-change="changeCheckBox"></checkbox-component>
-          </div>
-          <div class="col-4">
-              <calendar-component :id="'calendar'" :value="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></calendar-component>
-          </div>
-          <div class="col-4">
-              <button-component :btn-name="'조회'" @button-click="searchBtn"></button-component>
-          </div> -->
-      </div>
-    </div>
-    
-    <div class="py-4"><!-- v-if="dispData.length > 0"-->
-      <div class="patient-cardbox" v-for="item in dispData" :key="item.id">
-          <div class="group">
-              <div class="pos">
-                  {{item.Ward}}
-                  <span class="text-liner"></span>
-                  {{item.Room}}
-                  <span class="text-liner"></span>
-                  {{item.PatBed}}
+
+    <div class="container-fluid round bgnone" v-cloak>
+      <section class="row content-wrap">
+        <div class="col-12 content graybox">
+
+        <!-- 상단 조회조건 -->
+        <div class="search">
+          <div class="form-row">
+              <div class="col-6">
+                <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </div>
-              <div class="leave" v-if="item.opGubun=='0'">
-                  <span class="today-badge mr-2" v-if="item.opGubun=='0'">퇴원일</span>
-                  {{(item.DscPlanYmd)}}
+              <div class="col-6">
+                <SelectBoxComp :items="selectGroupData.doctorList" :value="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
               </div>
-              <div class="green-leave" v-if="( item.opGubun=='1' || item.opGubun=='2' )">
-                  <span class="green-badge mr-2" v-if="item.opGubun=='1'">수술일</span>
-                  <span class="green-badge mr-2" v-if="item.opGubun=='2'">수술예정일</span>
-                  {{(item.DscPlanYmd)}}
+              <div class="col-12 mt-2">
+                <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
               </div>
-              <a href="javascript:void(0)" class="menu" style="z-index: 3;" @click.stop="openMenu(item)">메뉴</a>
+              <!-- <div class="col-4">
+                  <checkbox-component :id="'ch1'" :label-name="'입원예정'" :value="selectedData.checked" @checkbox-change="changeCheckBox"></checkbox-component>
+              </div>
+              <div class="col-4">
+                  <calendar-component :id="'calendar'" :value="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></calendar-component>
+              </div>
+              <div class="col-4">
+                  <button-component :btn-name="'조회'" @button-click="searchBtn"></button-component>
+              </div> -->
           </div>
-          <div class="group" @click.stop="clickedPatient(item)">
-              <div class="block">
-                  <p class="name"><i class="icon-samename" v-if="item.isSameNm"></i> {{item.UnitNo}} {{item.PatNm}}({{item.Sex}}/{{item.Age}})</p>
+        </div>
+
+        <!-- 하단 리스트 -->
+        <div class="row">
+          <div class="col-12">
+            <div class="py-4"><!-- v-if="dispData.length > 0"-->
+              <div class="patient-cardbox" v-for="item in dispData" :key="item.id">
+                  <div class="group">
+                      <div class="pos">
+                          {{item.Ward}}
+                          <span class="text-liner"></span>
+                          {{item.Room}}
+                          <span class="text-liner"></span>
+                          {{item.PatBed}}
+                      </div>
+                      <div class="leave" v-if="item.opGubun=='0'">
+                          <span class="today-badge mr-2" v-if="item.opGubun=='0'">퇴원일</span>
+                          {{(item.DscPlanYmd)}}
+                      </div>
+                      <div class="green-leave" v-if="( item.opGubun=='1' || item.opGubun=='2' )">
+                          <span class="green-badge mr-2" v-if="item.opGubun=='1'">수술일</span>
+                          <span class="green-badge mr-2" v-if="item.opGubun=='2'">수술예정일</span>
+                          {{(item.DscPlanYmd)}}
+                      </div>
+                      <a href="javascript:void(0)" class="menu" style="z-index: 3;" @click.stop="openMenu(item)">메뉴</a>
+                  </div>
+                  <div class="group" @click.stop="clickedPatient(item)">
+                      <div class="block">
+                          <p class="name"><i class="icon-samename" v-if="item.isSameNm"></i> {{item.UnitNo}} {{item.PatNm}}({{item.Sex}}/{{item.Age}})</p>
+                      </div>
+                      <div class="block">
+                          <p class="doctor">{{item.DeptNm}} <span class="text-liner"></span> {{item.DrNm}}</p>
+                          <p>{{(item.AdmiDt)}}</p>
+                      </div>
+                  </div>
+                  <div class="group" v-if="item.NurAssnYn == 'N' && userInfo.OcpTyp == 'N'">
+                      <a href="javascript:void(0)" class="btn btn-size fw-medium btn-out-color1" data-toggle="modal" @click="setPatInfo(item)" data-target="#patient-set">{{Multilingual.patAssn}}</a>
+                  </div>
               </div>
-              <div class="block">
-                  <p class="doctor">{{item.DeptNm}} <span class="text-liner"></span> {{item.DrNm}}</p>
-                  <p>{{(item.AdmiDt)}}</p>
-              </div>
+            </div>
           </div>
-          <div class="group" v-if="item.NurAssnYn == 'N' && userInfo.OcpTyp == 'N'">
-              <a href="javascript:void(0)" class="btn btn-size fw-medium btn-out-color1" data-toggle="modal" @click="setPatInfo(item)" data-target="#patient-set">{{Multilingual.patAssn}}</a>
-          </div>
-      </div>
+        </div>
+
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script setup>
-import SelectBoxComp from '@/components/SelectBoxComp.vue';
+import SelectBoxComp from '@/components/ui/Select.vue';
 import { getInPatientList, getDoctorList } from '../api/inPatientList.ts'
 
 /**변수 선언부*/
