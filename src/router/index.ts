@@ -21,10 +21,10 @@ const router = createRouter({
       path: '/inPatientList',
       name: 'inPatientList',
       component: () => import('../views/InPatientView.vue'),
-      beforeEnter: (to, from, next) => {
-        alert("로그인이 필요한 서비스 입니다.")
-        next("/")
-      }
+      // beforeEnter: (to, from, next) => {
+      //   alert("로그인이 필요한 서비스 입니다.")
+      //   next("/")
+      // }
     },
     {
       path: '/outPatientList',
