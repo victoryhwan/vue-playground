@@ -2,7 +2,7 @@ export {};
 
 declare global {
   interface Window {
-    example: function;
+    example: object;
     sideMenu: object;
   }
 }

@@ -2,6 +2,17 @@
 
 import { store } from '../stores/store'
 
+window.example = {
+  increment(){
+    console.log("+1 증가");
+    store.increment();
+  },
+  decrement(){
+    store.decrement();
+    console.log("-1 감소");
+  }
+}
+
 </script>
 
 <template>

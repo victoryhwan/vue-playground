@@ -1,21 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import ComponentA from './components/ComponentA.vue'
+import SideMenu from './components/common/SideMenu.vue'
+
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/inPatientList">입원환자명단</RouterLink>
-        <RouterLink to="/outPatientList">외래환자명단</RouterLink>
-      </nav>
-      <ComponentA />
-    </div>
-  </header>
-
+  <SideMenu/>
   <RouterView />
 </template>
 

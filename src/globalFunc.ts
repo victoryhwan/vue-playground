@@ -1,12 +1,13 @@
 
 export default {
-
+    /** window 객체 생성 init  */
     toNative(){
-        window.example = function (hosCd:string){
-            if(hosCd === 'dd'){
-                console.log("test");
-            }else{
-                console.log("test2");
+        window.example = {
+            increment(){
+                console.log("sideMenu open");
+            },
+            decrement(){
+                console.log("sideMenu close");
             }
         }
         window.sideMenu = {

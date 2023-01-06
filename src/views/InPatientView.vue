@@ -1,5 +1,5 @@
 <template>
-  <div class="search-group">조회 조건 영역(위에 상위 컴포넌트는 사이드메뉴가 완성되면 숨김처리 또는 삭제 예정)</div>
+  <div class="search-group">조회 조건 영역</div>
 
   <div class="container-fluid patient-list">
     <div class="container-fluid round bgnone" v-cloak>
