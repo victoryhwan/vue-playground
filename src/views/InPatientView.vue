@@ -1,12 +1,13 @@
 <template>
-  <div class="inPatientList">
+  <div class="search-group">조회 조건 영역(위에 상위 컴포넌트는 사이드메뉴가 완성되면 숨김처리 또는 삭제 예정)</div>
 
+  <div class="container-fluid patient-list">
     <div class="container-fluid round bgnone" v-cloak>
       <section class="row content-wrap">
         <div class="col-12 content graybox">
 
         <!-- 상단 조회조건 -->
-        <div class="search">
+        <!-- <div class="search">
           <div class="form-row">
               <div class="col-6">
                 <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
@@ -17,17 +18,8 @@
               <div class="col-12 mt-2">
                 <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
               </div>
-              <!-- <div class="col-4">
-                  <checkbox-component :id="'ch1'" :label-name="'입원예정'" :value="selectedData.checked" @checkbox-change="changeCheckBox"></checkbox-component>
-              </div>
-              <div class="col-4">
-                  <calendar-component :id="'calendar'" :value="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></calendar-component>
-              </div>
-              <div class="col-4">
-                  <button-component :btn-name="'조회'" @button-click="searchBtn"></button-component>
-              </div> -->
           </div>
-        </div>
+        </div> -->
 
         <!-- 하단 리스트 -->
         <div class="row">
@@ -97,7 +89,7 @@ const selectedData = { //조회조건 데이터
 }
 
 // const dispData = ref([])
-const dispData = getInPatientList()
+let dispData = getInPatientList()
 
 const changeSelectBoxDept = (data) => {
     selectedData.DeptCd = data.code
@@ -122,6 +114,17 @@ const setPatInfo = () => { }
 </script>
 
 <style scoped>
+.search-group {
+    background-color: skyblue;
+    position: fixed !important;
+    z-index: 30;
+    width: 100%;
+    height: 80px;
+}
+.patient-list {
+  top: 80px;
+  padding: 1rem;
+}
 .pb-4, .py-4 {
   padding-bottom: 1.5rem !important;
 }
