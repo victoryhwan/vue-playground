@@ -1,4 +1,10 @@
 <script setup lang="ts">
+/** 
+ * * 사이드메뉴 open : window.sideMenu.open()
+ * * 사이드메뉴 close : window.sideMenu.close()
+ * 
+ * todo : sideMenu 스타일링 
+*/
 import { sideMenu } from '../../stores/store'
 window.sideMenu = {
   open(){
@@ -8,20 +14,17 @@ window.sideMenu = {
     sideMenu.close()
   }
 }
-/** todo 
- * sideMenu css로 변경해야 한다.
- * 
-*/
-
 </script>
 
 <template>
     <div class="wrapper sideMenu" v-show="sideMenu.status">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/inPatientList">입원환자명단</RouterLink>
-        <RouterLink to="/outPatientList">외래환자명단</RouterLink>
+        <ul>
+            <li><RouterLink to="/" @click="sideMenu.close()">Home</RouterLink></li>
+            <li><RouterLink to="/about" @click="sideMenu.close()">About</RouterLink></li>
+            <li><RouterLink to="/inPatientList" @click="sideMenu.close()">입원환자명단</RouterLink></li>
+            <li><RouterLink to="/outPatientList" @click="sideMenu.close()">외래환자명단</RouterLink></li>
+        </ul>
       </nav>
     </div>
 </template>
@@ -32,7 +35,18 @@ window.sideMenu = {
     position: fixed;
     z-index: 50;
     background-color: yellow;
-    top:100px;
-    
+    right: 0px;
+    height: 100%;
 }
+
+nav {
+    top: 100px;
+    padding: 1rem;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0px;
+ }
+
 </style>
