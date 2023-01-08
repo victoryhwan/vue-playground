@@ -70,7 +70,7 @@
 
 <script setup>
 import SelectBoxComp from '@/components/ui/Select.vue';
-import { getInPatientList, getDoctorList } from '../api/inPatientList.ts'
+import { getInPatientList, getDoctorList } from '@/api/qab'
 
 /**변수 선언부*/
 const selectGroupData = {//조회조건 컴포넌트 데이터
@@ -115,11 +115,12 @@ const setPatInfo = () => { }
 
 <style scoped>
 .search-group {
-    background-color: skyblue;
+    background-color: white;
     position: fixed !important;
     z-index: 30;
     width: 100%;
     height: 80px;
+    box-shadow: 0 0 4px black;
 }
 .patient-list {
   top: 80px;

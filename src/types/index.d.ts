@@ -1,3 +1,4 @@
+import axios from 'axios'
 export {};
 
 declare global {
@@ -6,3 +7,9 @@ declare global {
     sideMenu: object;
   }
 }
+
+// declare module 'vue' {
+//   interface ComponentCustomProperties {
+//     $axios: typeof axios
+//   }
+// }

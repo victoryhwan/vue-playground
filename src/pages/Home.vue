@@ -1,3 +1,4 @@
+
 <template>
   <div class="about">
     <div>{{postFontSize}}</div>
@@ -7,7 +8,6 @@
 </template>
 
 <script setup>
-import Global from './Global.vue'
 import { ref, provide } from 'vue';
 
 const location = ref('북극')

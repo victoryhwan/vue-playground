@@ -1,7 +1,8 @@
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import axios from 'axios';
 
-let url = 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/dcmc/api/'
+// const {proxy} = getCurrentInstance();
+const url = 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/dcmc/api/'
 const version = '/v4'
 
 let param = {
@@ -30,6 +31,7 @@ let docParam = {
 function getInPatientList() {
     const res = ref([]);
     onMounted(async()=>{
+        console.log("getInPatientList")
         res.value = (await axios.post(url+'get_getInPatientList'+version ,param)).data.body
     })
 
@@ -46,4 +48,8 @@ function getDoctorList(){
 	return res
 }
 
-export { getInPatientList, getDoctorList }
+async function getTest(){
+    const res = await axios.get("https://jsonplaceholder.typicode.com/users/")
+    return res.data
+}
+export { getInPatientList, getDoctorList, getTest }

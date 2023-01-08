@@ -2,10 +2,13 @@
 import { ref, nextTick } from 'vue'
 import axios from 'axios';
 import { reactive, computed } from 'vue'
-import { store } from '../stores/store'
+import { store } from '@/stores/store'
+import { getTest } from '@/api/qab'
 
 const count = ref(0)
 const users = reactive([])
+// const { proxy } = getCurrentInstance();
+
 async function increment() {
   count.value++
 
@@ -19,15 +22,16 @@ async function increment() {
 
 async function clicker() {
   console.log("click")
+  users.value = await getTest()
   store.increment()
-  axios.get("https://jsonplaceholder.typicode.com/users/")
-  .then( (res)=>{
-    console.log(res)
-    console.log(res.data)
-    users.value = res.data
-    console.log(users)
+  // proxy.$axios.get("https://jsonplaceholder.typicode.com/users/")
+  // .then( (res)=>{
+  //   // console.log(res)
+  //   // console.log(res.data)
+  //   users.value = res.data
+  //   // console.log(users)
     
-  })
+  // })
 }
 </script>
 
