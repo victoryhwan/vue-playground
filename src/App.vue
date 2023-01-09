@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import SideMenu from './components/common/SideMenu.vue'
-
+import HeaderComp from './components/common/HeaderComp.vue';
 </script>
 
 <template>
   <SideMenu/>
-  <RouterView />
+  <HeaderComp/>
+  <main>
+    <RouterView class="routerView"/>
+  </main>
 </template>
 
 <style>
@@ -21,4 +24,9 @@ body{
   color: #222;
   letter-spacing: -0.4px;
 }
+
+main{
+  top: 55px;
+}
+
 </style>
