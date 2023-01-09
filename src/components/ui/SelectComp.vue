@@ -1,6 +1,6 @@
 <template>
     <select class="form-control" :id="id" @change="onChange($event)" v-model="this.value" :disabled="disabled" >
-        <option v-for="item in items" :value="item.code" >{{item.name}}</option>
+        <option v-for="(item, index) in items" :value="item.code" :key="index">{{item.name}}</option>
     </select>
 </template>
 

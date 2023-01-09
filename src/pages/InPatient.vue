@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import SelectBoxComp from '@/components/ui/Select.vue';
+// import SelectBoxComp from '@/components/ui/SelectComp.vue';
 import { getInPatientList, getDoctorList } from '@/api/qab'
 
 /**변수 선언부*/

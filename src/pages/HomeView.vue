@@ -2,7 +2,6 @@
 <template>
   <div class="about">
     <div>{{postFontSize}}</div>
-    <Global @my-log="Alert" :msg="'타이틀'" @enlarge-text="changeFont"></Global>
     <h1>This is an Home page</h1>
   </div>
 </template>
