@@ -25,14 +25,6 @@ async function clicker() {
   console.log("click")
   users.value = await getTest()
   store.increment()
-  // proxy.$axios.get("https://jsonplaceholder.typicode.com/users/")
-  // .then( (res)=>{
-  //   // console.log(res)
-  //   // console.log(res.data)
-  //   users.value = res.data
-  //   // console.log(users)
-    
-  // })
 }
 </script>
 

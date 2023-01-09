@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import SideMenu from './components/common/SideMenu.vue'
 import HeaderComp from './components/common/HeaderComp.vue';
 </script>
 
 <template>
-  <SideMenu/>
+
+  <!--  * layout start -->
   <HeaderComp/>
   <main>
-    <RouterView class="routerView"/>
+    <RouterView/>
   </main>
+  <!-- * layout end -->
+
+  <!-- * common components start -->
+  <SideMenu/>
+  <!-- todo : 환자접근권한 Component -->
+  <!-- * common components end -->
+
 </template>
 
 <style>
