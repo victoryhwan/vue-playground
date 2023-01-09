@@ -12,9 +12,9 @@
   
   <script setup>
   import {login, getUser, getTest} from '@/api/auth'
-  import { useAuthStore } from '@/stores/pinia/auth.store';
+  // import { useAuthStore } from '@/stores/pinia/auth.store';
 
-  const authToken = useAuthStore()
+  // const authToken = useAuthStore()
   const submit = async ()=>{
     let res = await login()
     console.log(res)
@@ -28,7 +28,7 @@
   const test = async ()=>{
     let res = await getTest()
     console.log(res)
-    authToken.setToken("test")
+    // authToken.setToken("test")
   }
   </script>
 
