@@ -7,58 +7,56 @@ const proxyUrl = '/qabApi'
 const version = '/v4'
 
 async function getInPatientList(param:any) {
-    let res:any = await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)
-
-    res = res.data.body
-    return res
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)
+    return res.data.body
 }
 
 async function getDeptList(param:any) {
-    let res:any = await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)
-    let selected:string = '%'
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)
+    const selected:string = '%'
 
     res.data.body.forEach((item:any) => {
         item.value = item.DeptCd
         item.text = item.DeptNm
 
-        if(item.DeptCd == '2150000000'){
-            selected = item.DeptCd
-        }
+        // if(item.DeptCd == '2150000000'){
+        //     selected = item.DeptCd
+        // }
     });
 
-    res = res.data.body
-    return { res, selected }
+    res.data.body.unshift({value:'%',text:'전체'})
+    return { res:res.data.body, selected:selected }
 }
 
 async function getWardList(param:any){
-    let res:any = await axiosInstance.post(proxyUrl+'get_getWardList'+version ,param)
-    let selected:string = '%'
+    const res:any = await axiosInstance.post(proxyUrl+'get_getWardList'+version ,param)
+    const selected:string = '%'
 
     res.data.body.forEach((item:any) => {
         item.value = item.Ward
         item.text = item.WardNm
     });
 
-    res = res.data.body
-    return { res, selected }
+    res.data.body.unshift({value:'%',text:'전체'})
+    return { res:res.data.body, selected:selected }
 
 }
 
 async function getDoctorList(param:any){
-    let res:any = await axiosInstance.post(proxyUrl+'get_getDoctorListByDept'+version ,param)
-    let selected:string = ''
+    const res:any = await axiosInstance.post(proxyUrl+'get_getDoctorListByDept'+version ,param)
+    const selected:string = '%'
 
     res.data.body.forEach((item:any) => {
         item.value = item.DrId
         item.text = item.DrNm
 
-        if(item.DrId == '아이디값'){
-            selected = item.DrId
-        }
+        // if(item.DrId == '아이디값'){
+        //     selected = item.DrId
+        // }
     });
 
-    res = res.data.body
-    return { res, selected }
+    res.data.body.unshift({value:'%',text:'전체'})
+    return { res:res.data.body, selected:selected }
 }
 
 async function getTest(){

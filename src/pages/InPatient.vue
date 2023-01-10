@@ -162,21 +162,21 @@ const changeSelectBoxDept = async (data) => {
   docParam.DeptCd = selectedData.DeptCd
   param.DeptCd = selectedData.DeptCd
 
-  doctorList = getDoctorList(docParam)
-  dispData = getInPatientList(param)
+  selectGroupData.doctorList = await getDoctorList(docParam)
+  dispData.value = await getInPatientList(param)
 }
 
-const changeSelectBoxDr = (data) => {
+const changeSelectBoxDr = async (data) => {
   selectedData.DrId = data
   param.DrId = selectedData.DrId
   
-  dispData = getInPatientList(param)
+  dispData.value = await getInPatientList(param)
 }
-const changeSelectBoxWard = (data) => {
+const changeSelectBoxWard = async (data) => {
   selectedData.Ward = data
   param.Ward = selectedData.Ward
 
-  dispData = getInPatientList(param)
+  dispData.value = await getInPatientList(param)
 }
 const openMenu = () => { }
 const clickedPatient = () => { }
