@@ -15,7 +15,7 @@
               <b-col>
                 <SelectBoxComp :items="selectGroupData.deptList" :selected="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </b-col>
-              <b-col>
+              <b-col class="right-col">
                 <SelectBoxComp :items="selectGroupData.doctorList" :selected="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
               </b-col>
             </b-row>
@@ -275,4 +275,8 @@ const setPatInfo = () => { }
   color: #004dc0;
 }
 
+.right-col{
+  padding-left: 0;
+  padding-bottom: 12px;
+}
 </style>
