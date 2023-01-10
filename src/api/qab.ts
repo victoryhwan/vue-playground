@@ -1,8 +1,9 @@
 import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import axios from 'axios';
+import { axiosInstance } from '@/api/util/axiosConfig';
 
 // const {proxy} = getCurrentInstance();
-const url = 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/dcmc/api/'
+const proxyUrl = '/qabApi'
 const version = '/v4'
 
 let param = {
@@ -23,7 +24,7 @@ function getInPatientList() {
     const res = ref([]);
     onMounted(async()=>{
         console.log("getInPatientList")
-        res.value = (await axios.post(url+'get_getInPatientList'+version ,param)).data.body
+        res.value = (await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)).data.body
     })
 
 	return res
@@ -43,7 +44,7 @@ let deptParam = {
 function getDeptList() {
     const res = ref([]);
     onMounted(async()=>{
-        res.value = (await axios.post(url+'get_getDeptList'+version ,deptParam)).data.body
+        res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,deptParam)).data.body
 
         res.value.forEach((item:any)=>{
             item.value = item.DeptCd
@@ -71,7 +72,7 @@ function getDoctorList(){
     const res = ref([]);
 
     onMounted(async()=>{
-        res.value = (await axios.post(url+'get_getDoctorListByDept'+version ,docParam)).data.body
+        res.value = (await axiosInstance.post(proxyUrl+'/get_getDoctorListByDept'+version ,docParam)).data.body
     })
 
 	return res
