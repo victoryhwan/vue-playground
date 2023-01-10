@@ -59,16 +59,12 @@
                   <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#listMoreInfo" aria-expanded="false" aria-controls="listMoreInfo">환자검색</a>
                   <ul class="collapse" id="listMoreInfo">
                     <li>
-                      <a href="javascript:void(0)">
                         <RouterLink to="/login" @click="sideMenu.close()">
                         Login</RouterLink>
-                      </a>
                     </li>
                     <li>
-                      <a>
                         <RouterLink to="/" @click="sideMenu.close()">
                           Home</RouterLink>
-                      </a>
                     </li>
                     <li>
                       <RouterLink to="/about" @click="sideMenu.close()"
@@ -89,16 +85,13 @@
                 </li>
 
                 <li>
-                    <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#outMoreInfo" aria-expanded="false" aria-controls="outMoreInfo">일정관리</a>
-                    <ul class="collapse" id="outMoreInfo">
-                        <li>
-                          <a href="javascript:void(0)">
-                            <RouterLink to="/login" @click="sideMenu.close()">
-                            외래진료일정</RouterLink>
-                          </a>
-                        </li>
-                        
-                    </ul>
+                  <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#outMoreInfo" aria-expanded="false" aria-controls="outMoreInfo">일정관리</a>
+                  <ul class="collapse" id="outMoreInfo">
+                    <li>
+                        <RouterLink to="/login" @click="sideMenu.close()">
+                        외래진료일정</RouterLink>
+                    </li>
+                  </ul>
                 </li>
               </ul>
               
@@ -112,26 +105,6 @@
 
 <script setup>
 import { sideMenu } from "../../stores/store";
-
-const menuCollapse = (e) => { 
-  if(!(e.target).hasClass("non")) {
-    if((e.target).hasClass("show")) {
-        (e.target).removeClass("show");
-    } else {
-        (e.target).addClass("show");
-    }
-  }
-}
-const menuClk = () => { }
-const favoritbtnClk = () => { }
-const logoutBtn = () => { }
-const homeBtn = () => { }
-const editBtn = () => { }
-const settingsBtn = () => { }
-const favorMenu = () => { }
-
-
-
 
 /**
  * * 사이드메뉴 open : window.sideMenu.open()
@@ -150,7 +123,53 @@ window.sideMenu = {
 </script>
 
 <style scoped>
-.sideMenu {
+.icon-edit:after{
+  display: inline-block;
+  content:"";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: -8px;
+  background: url(../../assets/ico_nav_edit.png) 0 0 no-repeat; background-size: 100%}
+  .icon-home {
+    display: inline-block;
+    position: relative;
+    width: 18px;
+    height: /*21px*/20px;
+    margin-right: 20px;
+}
+  .icon-home:after {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 18px;
+    height: /*21px*/20px;
+    margin-top: -5px;
+    background: url(../../assets/ico_nav_home.png) 0 0 no-repeat;
+    background-size: 100%;
+}
+.icon-setting {
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: /*21px*/20px;
+    margin-right: 20px;
+}
+.icon-setting:after {
+    display: inline-block;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20px;
+    height: /*21px*/20px;
+    margin-top: -5px;
+    background: url(../../assets/ico_nav_setting.png) 0 0 no-repeat;
+    background-size: 100%;
 }
 a{
   text-decoration: none;
@@ -264,5 +283,20 @@ nav .nav-category li {
 .collapsed > .when-open,
 .not-collapsed > .when-closed {
   display: none;
+}
+.icon-edit {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+.hidden {
+    overflow: hidden;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 0;
+    font-size: 1px;
 }
 </style>
