@@ -4,11 +4,14 @@
     <div>{{postFontSize}}</div>
     <h1>This is an Home page</h1>
   </div>
+  <div>UserId : {{ userStore.user.UserNm }}</div>
 </template>
 
 <script setup>
 import { ref, provide } from 'vue';
+import { useUserStore } from '@/stores/pinia/user.store';
 
+const userStore = useUserStore()
 const location = ref('북극')
 
 function updateLocation() {

@@ -1,5 +1,7 @@
 <template>
-  <div class="search-group">조회 조건 영역</div>
+  <!-- <div class="search-group"> -->
+    
+  <!-- </div> -->
 
   <div class="container-fluid patient-list">
     <div class="container-fluid round bgnone" v-cloak>
@@ -7,19 +9,23 @@
         <div class="col-12 content graybox">
 
         <!-- 상단 조회조건 -->
-        <!-- <div class="search">
+        <div class="search">
           <div class="form-row">
-              <div class="col-6">
-                <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
-              </div>
-              <div class="col-6">
-                <SelectBoxComp :items="selectGroupData.doctorList" :value="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
-              </div>
-              <div class="col-12 mt-2">
-                <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
-              </div>
+            <b-row>
+              <b-col>
+                <SelectBoxComp :items="selectGroupData.deptList" :selected="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
+              </b-col>
+              <b-col class="right-col">
+                <SelectBoxComp :items="selectGroupData.doctorList" :selected="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col>
+                <SelectBoxComp :items="selectGroupData.wardList" :selected="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
+              </b-col>
+              </b-row>
           </div>
-        </div> -->
+        </div>
 
         <!-- 하단 리스트 -->
         <div class="row">
@@ -69,12 +75,13 @@
 </template>
 
 <script setup>
-// import SelectBoxComp from '@/components/ui/SelectComp.vue';
-import { getInPatientList, getDoctorList } from '@/api/qab'
+import SelectBoxComp from '@/components/ui/SelectComp.vue';
+import { getInPatientList, getDeptList, getWardList, getDoctorList } from '@/api/qab'
+import { ref, provide } from 'vue'
 
 /**변수 선언부*/
 const selectGroupData = {//조회조건 컴포넌트 데이터
-    deptList : [],
+    deptList : ref([]),
     wardList : [],
     doctorList : []
 }
@@ -88,23 +95,86 @@ const selectedData = { //조회조건 데이터
     checked : false
 }
 
-// const dispData = ref([])
-let dispData = getInPatientList()
 
-const changeSelectBoxDept = (data) => {
-    selectedData.DeptCd = data.code
-    selectGroupData.doctorList = getDoctorList()
-    dispData = getInPatientList()
+let param = {
+  AdmiPlanYmd : "",
+  AdmiPlanYn : "N",
+  DeptCd : "2150000000",
+  DrId : "%",
+  HosCd : "37100092",
+  NurId : "",
+  OcpTyp : "0330",
+  RetrYmd : "20230105",
+  Room : "%",
+  UserId : "JR1zxnV15TN3W0g1sZtRY+SDyuhup0z052GS+iBB1Jlu2NQxCD+r9iXpZZUsgbUDmqFztWa4NsdNgZ999npeuMbfhrcfV5jtvLxBd4vGtvaByOJKwKxqVCvHdV58ACQ+ZFdecCcsKf0H4T6u/wPwPlKiUamGmzZZm22uHAkRRvE=",
+  Ward : "%"
+}
+let deptParam = {
+    HosCd : "37100092",
+    MlGb : "ko",
+    OcpTyp : "0330",
+    RetrGb : "I",
+    UserDeptCd : "2030000000",
+    UserId : "OdDN/XlHzliWjM3KI9N31N/EMdpJL/RBNH6AfUZUejfTOZXcmTlt5/mA0IkdIkI1K53r1tVnnV7ufwTYkVG8wZmBCN7duhJeUh5ev8LToNiJl/q98Y1HhlolLlzjFTVhw/JieO4lgAJPYCxoen4s2TxiKOEkfKw0kdXueptnQSU="
+}
+let wardParam = {
+    HosCd : '37100092',
+    UserId : 'AsE27YR8JUCnUUAgk+bTkg1fqFvv3f68iIOMnnrLEzQKoq1snQzPoZeFK+KAI9x7lZPXEjyUdnRJNmf1zyuK5L3iN9c/2QrkHJfwMYqlf9gvYMIJatU/ZODaSLSMrp3slG1cwpIyzKBYH6xtdm+DsuQ/1JuDAabqC4oAHSN1Tws=',
+    OcpTyp : '0330',
+    RetrGb : 'I'
+}
+let docParam = {
+    DeptCd : "2150000000",
+    HosCd : "37100092",
+    MlGb : "ko",
+    OcpTyp : "0330",
+    RetrGb : "I",
+    UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
 }
 
+let dispData = getInPatientList(param)
+
+let deptData = getDeptList(deptParam)
+selectGroupData.deptList = deptData.res
+selectedData.DeptCd = deptData.selected
+
+const changeSelectBoxDept = (data) => {
+    selectedData.DeptCd = data
+
+    docParam.DeptCd = selectedData.DeptCd
+    param.DeptCd = selectedData.DeptCd
+
+    selectGroupData.doctorList = getDoctorList(docParam)
+    dispData = getInPatientList(param)
+}
+
+/**함수랑 변수를 자식한테 넘겨준다*/
+// provide('selectGroupData', {
+//   data
+// })
+
+/** 병동 리스트 조회 및 세팅 */
+let wardData = getWardList(wardParam)
+selectGroupData.wardList = wardData.res
+selectedData.Ward = wardData.selected
+
+/** 의사 리스트 조회 및 세팅 */
+let docData = getDoctorList(docParam)
+selectGroupData.doctorList = docData.res
+selectedData.DrId = docData.selected
+
 const changeSelectBoxDr = (data) => {
-    selectedData.DrId = data.code
-    dispData = getInPatientList()
+    selectedData.DrId = data
+    param.DrId = selectedData.DrId
+    
+    dispData = getInPatientList(param)
 }
 
 const changeSelectBoxWard = (data) => {
-    selectedData.Ward = data.code
-    dispData = getInPatientList()
+    selectedData.Ward = data
+    param.Ward = selectedData.Ward
+
+    dispData = getInPatientList(param)
 }
 
 const openMenu = () => { }
@@ -115,6 +185,8 @@ const setPatInfo = () => { }
 
 <style scoped>
 .search-group {
+    display: flex;
+    flex-wrap: wrap;
     background-color: white;
     position: fixed !important;
     z-index: 30;
@@ -123,7 +195,7 @@ const setPatInfo = () => { }
     box-shadow: 0 0 4px black;
 }
 .patient-list {
-  top: 80px;
+  /*top: 80px;*/
   padding: 1rem;
 }
 .pb-4, .py-4 {
@@ -203,4 +275,8 @@ const setPatInfo = () => { }
   color: #004dc0;
 }
 
+.right-col{
+  padding-left: 0;
+  padding-bottom: 12px;
+}
 </style>
