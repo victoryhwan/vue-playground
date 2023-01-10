@@ -1,5 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/pages/HomeView.vue'
+// import { useAuthStore } from '@/stores/pinia/auth.store'
+import { useUserStore } from '@/stores/pinia/user.store'
+// import type { Auth } from '@/types/user'
+
+const requireAuth = (to:any, from:any, next:any)=>{
+  // const store:Auth = useAuthStore()
+  const userStore = useUserStore()
+  if(Object.keys(userStore.user).length === 0){
+    console.log("no user data")
+    next({name: 'login'})
+  }else{
+    next()
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +21,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      beforeEnter:requireAuth
     },
     {
       path: '/login',
@@ -17,19 +32,13 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('@/pages/AboutView.vue')
+      component: () => import('@/pages/AboutView.vue'),
+      beforeEnter:requireAuth
     },
     {
       path: '/inPatientList',
       name: 'inPatientList',
       component: () => import('@/pages/InPatient.vue'),
-      // beforeEnter: (to, from, next) => {
-      //   alert("로그인이 필요한 서비스 입니다.")
-      //   next("/")
-      // }
     },
     {
       path: '/outPatientList',

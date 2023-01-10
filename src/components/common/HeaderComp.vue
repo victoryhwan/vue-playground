@@ -21,9 +21,9 @@
         height: 55px;
     }
 
-    h2 {
+    .headView h2 {
         position: relative;
-        height: 55px;
+        /* height: 55px; */
         line-height: 55px;
         text-align: center;
         font-size: /* 18px 1.125rem */ /*20px*/1.25rem;
