@@ -29,6 +29,13 @@ export default defineConfig({
         secure: false,
         ws: true
       },
+      '/adminApi': {
+        target: 'https://mcareplus.dcmc.co.kr:20443/ui-dev/plus/api/admin',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qabApi/, ''),
+        secure: false,
+        ws: true
+      },
     }
   }
 })
