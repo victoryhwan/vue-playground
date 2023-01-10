@@ -47,7 +47,7 @@
 
   .modal-window {
     background: #fff;
-    border-radius: 4px;
+    border-radius: 10px;
     overflow: hidden;
     width: 90%;
   }
