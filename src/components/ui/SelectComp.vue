@@ -1,6 +1,6 @@
 <template>
     <b-form-select @change="onChange($event)">
-        <b-form-select-option v-for="(item, index) in items.value" :value="item.value" :key="index">{{item.text}}</b-form-select-option>
+        <b-form-select-option v-for="(item, index) in items" :value="item.value" :key="index">{{item.text}}</b-form-select-option>
     </b-form-select>
     <!-- <b-form-select :options="items.data" :id="id" @change="onChange($event)" v-model="this.value" :disabled="disabled" > -->
         <!-- <option v-for="(item, index) in items" :value="item.code" :key="index">{{item.name}}</option> -->

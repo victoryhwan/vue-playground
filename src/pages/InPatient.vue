@@ -1,8 +1,4 @@
 <template>
-  <!-- <div class="search-group"> -->
-    
-  <!-- </div> -->
-
   <div class="container-fluid patient-list">
     <div class="container-fluid round bgnone" v-cloak>
       <section class="row content-wrap">
@@ -11,7 +7,7 @@
         <!-- 상단 조회조건 -->
         <div class="search">
           <div class="form-row">
-            <!-- <b-row>
+            <b-row>
               <b-col>
                 <SelectBoxComp :items="selectGroupData.deptList" :selected="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </b-col>
@@ -23,15 +19,14 @@
               <b-col>
                 <SelectBoxComp :items="selectGroupData.wardList" :selected="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
               </b-col>
-            </b-row> -->
+            </b-row>
           </div>
         </div>
 
         <!-- 하단 리스트 -->
         <div class="row">
           <div class="col-12">
-            <div class="py-4"><!-- v-if="dispData.length > 0"-->
-              <!-- {{ dispData.value }} -->
+            <div class="py-4">
               <div class="patient-cardbox" v-for="item in dispData.value" :key="item.id">
                   <div class="group">
                       <div class="pos">
@@ -78,24 +73,23 @@
 <script setup>
 import SelectBoxComp from '@/components/ui/SelectComp.vue';
 import { getInPatientList, getDeptList, getWardList, getDoctorList } from '@/api/qab'
-import { ref, provide } from 'vue'
+import { onMounted, ref, reactive, provide } from 'vue'
 
 /**변수 선언부*/
-const selectGroupData = {//조회조건 컴포넌트 데이터
-    deptList : ref([]),
-    wardList : ref([]),
-    doctorList : ref([])
-}
+const selectGroupData = reactive({
+  deptList:[],
+  wardList:[],
+  doctorList:[]
+})
 
-
-const selectedData = { //조회조건 데이터
-    DeptCd : ref(''), //부서코드
-    Ward : ref(''), //병동코드
-    DrId : ref('%'),//의사Id
+const selectedData = reactive({ //조회조건 데이터
+    DeptCd : '', //부서코드
+    Ward : '', //병동코드
+    DrId : '',//의사Id
     calendar : new Date(),  //TODO: 변경해야한다
     calendarDisabled : true,
     checked : false
-}
+})
 
 
 let param = {
@@ -134,53 +128,56 @@ let docParam = {
     UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
 }
 
-const dispData = ref([])
-const deptData = ref([])
-const wardData = ref([])
-const docData = ref([])
+const dispData = reactive([])
+const deptData = reactive({})
+const wardData = reactive({})
+const docData = reactive({})
 
-dispData.value = await getInPatientList(param)
-// console.log(dispData,"dispData")
-console.log(JSON.stringify(dispData.value),"d1231231ispData")
+onMounted(async() => {
+  dispData.value = await getInPatientList(param)
 
-// deptData.value = getDeptList(deptParam)
-// console.log(deptData.res,"??????")
-// selectGroupData.deptList.value = deptData.res
-// console.log(selectGroupData.deptList,"selectGroupData.deptList")
-// selectedData.DeptCd.value = deptData.selected
+  deptData.value = await getDeptList(deptParam)
+  // deptList.value = deptData.value.res
+  selectGroupData.deptList = deptData.value.res
+  selectedData.DeptCd = deptData.value.selected
 
-// /** 병동 리스트 조회 및 세팅 */
-// wardData.value = getWardList(wardParam)
-// selectGroupData.wardList = wardData.res
-// selectedData.Ward = wardData.selected
+  /** 병동 리스트 조회 및 세팅 */
+  wardData.value = await getWardList(wardParam)
+  console.log(wardData.value,"wardData.value")
+  // wardList.value = wardData.value.res
+  selectGroupData.wardList = wardData.value.res
+  selectedData.Ward = wardData.value.selected
 
-// /** 의사 리스트 조회 및 세팅 */
-// docData.value = getDoctorList(docParam)
-// selectGroupData.doctorList = docData.res
-// selectedData.DrId = docData.selected
+  /** 의사 리스트 조회 및 세팅 */
+  docData.value = await getDoctorList(docParam)
+  // doctorList.value = docData.value.res
+  selectGroupData.doctorList = docData.value.res
+  selectedData.DrId = docData.value.selected
+})
 
-// const changeSelectBoxDept = (data) => {
-//   selectedData.DeptCd = data
+/**TODO: 변수값 바꿔주기*/
+const changeSelectBoxDept = async (data) => {
+  selectedData.DeptCd = data
 
-//   docParam.DeptCd = selectedData.DeptCd
-//   param.DeptCd = selectedData.DeptCd
+  docParam.DeptCd = selectedData.DeptCd
+  param.DeptCd = selectedData.DeptCd
 
-//   selectGroupData.doctorList = getDoctorList(docParam)
-//   dispData = getInPatientList(param)
-// }
+  doctorList = getDoctorList(docParam)
+  dispData = getInPatientList(param)
+}
 
-// const changeSelectBoxDr = (data) => {
-//   selectedData.DrId = data
-//   param.DrId = selectedData.DrId
+const changeSelectBoxDr = (data) => {
+  selectedData.DrId = data
+  param.DrId = selectedData.DrId
   
-//   dispData = getInPatientList(param)
-// }
-// const changeSelectBoxWard = (data) => {
-//   selectedData.Ward = data
-//   param.Ward = selectedData.Ward
+  dispData = getInPatientList(param)
+}
+const changeSelectBoxWard = (data) => {
+  selectedData.Ward = data
+  param.Ward = selectedData.Ward
 
-//   dispData = getInPatientList(param)
-// }
+  dispData = getInPatientList(param)
+}
 const openMenu = () => { }
 const clickedPatient = () => { }
 const setPatInfo = () => { }

@@ -14,43 +14,34 @@ async function getInPatientList(param:any) {
 }
 
 async function getDeptList(param:any) {
-    const res:any = [];
-    const selected = ref('%');
+    let res:any = await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)
+    let selected:string = '%'
 
-    // onMounted(async()=>{
-        res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)).data.body
+    res.data.body.forEach((item:any) => {
+        item.value = item.DeptCd
+        item.text = item.DeptNm
 
-        res.value.forEach((item:any)=>{
-            item.value = item.DeptCd
-            item.text = item.DeptNm
+        if(item.DeptCd == '2150000000'){
+            selected = item.DeptCd
+        }
+    });
 
-            if(item.DeptCd == '2150000000'){
-                selected.value = item.DeptCd
-            }
-        })
-        // res.value.unshift({value:'%', text:'전체'})
-    // })
-
-    
-
-	return {res, selected}
+    res = res.data.body
+    return { res, selected }
 }
 
 async function getWardList(param:any){
-    const res = ref([]);
-    const selected = ref('%');
+    let res:any = await axiosInstance.post(proxyUrl+'get_getWardList'+version ,param)
+    let selected:string = '%'
 
-    // onMounted(async()=>{
-        res.value = (await axios.post(proxyUrl+'get_getWardList'+version ,param)).data.body
-        
-        res.value.forEach((item:any)=>{
-            item.value = item.Ward
-            item.text = item.WardNm
-        })
-        
-    // })
+    res.data.body.forEach((item:any) => {
+        item.value = item.Ward
+        item.text = item.WardNm
+    });
 
-	return {res, selected}
+    res = res.data.body
+    return { res, selected }
+
 }
 
 async function getDoctorList(param:any){
