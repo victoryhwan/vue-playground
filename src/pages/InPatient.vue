@@ -11,7 +11,7 @@
         <!-- 상단 조회조건 -->
         <div class="search">
           <div class="form-row">
-            <b-row>
+            <!-- <b-row>
               <b-col>
                 <SelectBoxComp :items="selectGroupData.deptList" :selected="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </b-col>
@@ -23,7 +23,7 @@
               <b-col>
                 <SelectBoxComp :items="selectGroupData.wardList" :selected="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
               </b-col>
-              </b-row>
+            </b-row> -->
           </div>
         </div>
 
@@ -31,7 +31,8 @@
         <div class="row">
           <div class="col-12">
             <div class="py-4"><!-- v-if="dispData.length > 0"-->
-              <div class="patient-cardbox" v-for="item in dispData" :key="item.id">
+              <!-- {{ dispData.value }} -->
+              <div class="patient-cardbox" v-for="item in dispData.value" :key="item.id">
                   <div class="group">
                       <div class="pos">
                           {{item.Ward}}
@@ -82,14 +83,15 @@ import { ref, provide } from 'vue'
 /**변수 선언부*/
 const selectGroupData = {//조회조건 컴포넌트 데이터
     deptList : ref([]),
-    wardList : [],
-    doctorList : []
+    wardList : ref([]),
+    doctorList : ref([])
 }
 
+
 const selectedData = { //조회조건 데이터
-    DeptCd : '', //부서코드
-    Ward : '', //병동코드
-    DrId : '%',//의사Id
+    DeptCd : ref(''), //부서코드
+    Ward : ref(''), //병동코드
+    DrId : ref('%'),//의사Id
     calendar : new Date(),  //TODO: 변경해야한다
     calendarDisabled : true,
     checked : false
@@ -132,54 +134,57 @@ let docParam = {
     UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
 }
 
-let dispData = getInPatientList(param)
+const dispData = ref([])
+const deptData = ref([])
+const wardData = ref([])
+const docData = ref([])
 
-let deptData = getDeptList(deptParam)
-selectGroupData.deptList = deptData.res
-selectedData.DeptCd = deptData.selected
+dispData.value = await getInPatientList(param)
+// console.log(dispData,"dispData")
+console.log(JSON.stringify(dispData.value),"d1231231ispData")
 
-const changeSelectBoxDept = (data) => {
-    selectedData.DeptCd = data
+// deptData.value = getDeptList(deptParam)
+// console.log(deptData.res,"??????")
+// selectGroupData.deptList.value = deptData.res
+// console.log(selectGroupData.deptList,"selectGroupData.deptList")
+// selectedData.DeptCd.value = deptData.selected
 
-    docParam.DeptCd = selectedData.DeptCd
-    param.DeptCd = selectedData.DeptCd
+// /** 병동 리스트 조회 및 세팅 */
+// wardData.value = getWardList(wardParam)
+// selectGroupData.wardList = wardData.res
+// selectedData.Ward = wardData.selected
 
-    selectGroupData.doctorList = getDoctorList(docParam)
-    dispData = getInPatientList(param)
-}
+// /** 의사 리스트 조회 및 세팅 */
+// docData.value = getDoctorList(docParam)
+// selectGroupData.doctorList = docData.res
+// selectedData.DrId = docData.selected
 
-/**함수랑 변수를 자식한테 넘겨준다*/
-// provide('selectGroupData', {
-//   data
-// })
+// const changeSelectBoxDept = (data) => {
+//   selectedData.DeptCd = data
 
-/** 병동 리스트 조회 및 세팅 */
-let wardData = getWardList(wardParam)
-selectGroupData.wardList = wardData.res
-selectedData.Ward = wardData.selected
+//   docParam.DeptCd = selectedData.DeptCd
+//   param.DeptCd = selectedData.DeptCd
 
-/** 의사 리스트 조회 및 세팅 */
-let docData = getDoctorList(docParam)
-selectGroupData.doctorList = docData.res
-selectedData.DrId = docData.selected
+//   selectGroupData.doctorList = getDoctorList(docParam)
+//   dispData = getInPatientList(param)
+// }
 
-const changeSelectBoxDr = (data) => {
-    selectedData.DrId = data
-    param.DrId = selectedData.DrId
-    
-    dispData = getInPatientList(param)
-}
+// const changeSelectBoxDr = (data) => {
+//   selectedData.DrId = data
+//   param.DrId = selectedData.DrId
+  
+//   dispData = getInPatientList(param)
+// }
+// const changeSelectBoxWard = (data) => {
+//   selectedData.Ward = data
+//   param.Ward = selectedData.Ward
 
-const changeSelectBoxWard = (data) => {
-    selectedData.Ward = data
-    param.Ward = selectedData.Ward
-
-    dispData = getInPatientList(param)
-}
-
+//   dispData = getInPatientList(param)
+// }
 const openMenu = () => { }
 const clickedPatient = () => { }
 const setPatInfo = () => { }
+
 
 </script>
 
@@ -278,5 +283,8 @@ const setPatInfo = () => { }
 .right-col{
   padding-left: 0;
   padding-bottom: 12px;
+}
+p {
+  margin-bottom: 0px;
 }
 </style>

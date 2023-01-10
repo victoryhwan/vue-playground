@@ -6,21 +6,18 @@ import { axiosInstance } from '@/api/util/axiosConfig';
 const proxyUrl = '/qabApi'
 const version = '/v4'
 
-function getInPatientList(param:any) {
-    const res = ref([]);
-    onMounted(async()=>{
-        console.log("getInPatientList")
-        res.value = (await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)).data.body
-    })
+async function getInPatientList(param:any) {
+    let res:any = await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)
 
-	return res
+    res = res.data.body
+    return res
 }
 
-function getDeptList(param:any) {
-    const res = ref([]);
+async function getDeptList(param:any) {
+    const res:any = [];
     const selected = ref('%');
 
-    onMounted(async()=>{
+    // onMounted(async()=>{
         res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)).data.body
 
         res.value.forEach((item:any)=>{
@@ -31,20 +28,19 @@ function getDeptList(param:any) {
                 selected.value = item.DeptCd
             }
         })
-
         // res.value.unshift({value:'%', text:'전체'})
-    })
+    // })
 
     
 
 	return {res, selected}
 }
 
-function getWardList(param:any){
+async function getWardList(param:any){
     const res = ref([]);
     const selected = ref('%');
 
-    onMounted(async()=>{
+    // onMounted(async()=>{
         res.value = (await axios.post(proxyUrl+'get_getWardList'+version ,param)).data.body
         
         res.value.forEach((item:any)=>{
@@ -52,29 +48,26 @@ function getWardList(param:any){
             item.text = item.WardNm
         })
         
-    })
+    // })
 
 	return {res, selected}
 }
 
-function getDoctorList(param:any){
-    const res = ref([]);
-    const selected = ref('%');
+async function getDoctorList(param:any){
+    let res:any = await axiosInstance.post(proxyUrl+'get_getDoctorListByDept'+version ,param)
+    let selected:string = ''
 
-    onMounted(async()=>{
-        res.value = (await axios.post(proxyUrl+'get_getDoctorListByDept'+version ,param)).data.body
-        
-        res.value.forEach((item:any)=>{
-            item.value = item.DrId
-            item.text = item.DrNm
+    res.data.body.forEach((item:any) => {
+        item.value = item.DrId
+        item.text = item.DrNm
 
-            if(item.DrId == '아이디값'){
-                // console.log(`item.DrId : ${JSON.stringify(item.DrId)}`)
-                selected.value = item.DrId
-            }
-        })
-    })
-	return {res, selected}
+        if(item.DrId == '아이디값'){
+            selected = item.DrId
+        }
+    });
+
+    res = res.data.body
+    return { res, selected }
 }
 
 async function getTest(){
