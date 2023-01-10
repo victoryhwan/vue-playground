@@ -41,6 +41,30 @@ export async function login(){
     return resultStatus
 }
 
+export async function logout(){
+    let resultStatus = false
+    try {
+        const res = await axiosInstance.post(proxyUrl+'/rest/logout', JSON.stringify(testParam))
+        resultStatus = true
+    } catch (error) {
+        console.log(error)
+        resultStatus = false
+    }
+    return resultStatus
+}
+
+export async function refreshToken(){
+    let resultStatus = false
+    try {
+        const res = await axiosInstance.post(proxyUrl+'/rest/refreshToken', JSON.stringify(testParam))
+        resultStatus = true
+    } catch (error) {
+        console.log(error)
+        resultStatus = false
+    }
+    return resultStatus
+}
+
 //test 
 export async function getUser(){
     const res = await axios.get(proxyUrl+'/user')
