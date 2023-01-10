@@ -18,7 +18,7 @@ function getInPatientList(param:any) {
 
 function getDeptList(param:any) {
     const res = ref([]);
-    let selected = ref('%');
+    const selected = ref('%');
 
     onMounted(async()=>{
         res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)).data.body
@@ -28,7 +28,7 @@ function getDeptList(param:any) {
             item.text = item.DeptNm
 
             if(item.DeptCd == '2150000000'){
-                selected = item.DeptCd
+                selected.value = item.DeptCd
             }
         })
 
@@ -42,7 +42,7 @@ function getDeptList(param:any) {
 
 function getWardList(param:any){
     const res = ref([]);
-    let selected = ref('%');
+    const selected = ref('%');
 
     onMounted(async()=>{
         res.value = (await axios.post(proxyUrl+'get_getWardList'+version ,param)).data.body
@@ -59,7 +59,7 @@ function getWardList(param:any){
 
 function getDoctorList(param:any){
     const res = ref([]);
-    let selected = ref('%');
+    const selected = ref('%');
 
     onMounted(async()=>{
         res.value = (await axios.post(proxyUrl+'get_getDoctorListByDept'+version ,param)).data.body
@@ -70,7 +70,7 @@ function getDoctorList(param:any){
 
             if(item.DrId == '아이디값'){
                 // console.log(`item.DrId : ${JSON.stringify(item.DrId)}`)
-                selected = item.DrId
+                selected.value = item.DrId
             }
         })
     })
