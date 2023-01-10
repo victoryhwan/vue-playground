@@ -6,21 +6,7 @@ import { axiosInstance } from '@/api/util/axiosConfig';
 const proxyUrl = '/qabApi'
 const version = '/v4'
 
-let param = {
-  AdmiPlanYmd : "",
-  AdmiPlanYn : "N",
-  DeptCd : "2150000000",
-  DrId : "%",
-  HosCd : "37100092",
-  NurId : "",
-  OcpTyp : "0330",
-  RetrYmd : "20230105",
-  Room : "%",
-  UserId : "JR1zxnV15TN3W0g1sZtRY+SDyuhup0z052GS+iBB1Jlu2NQxCD+r9iXpZZUsgbUDmqFztWa4NsdNgZ999npeuMbfhrcfV5jtvLxBd4vGtvaByOJKwKxqVCvHdV58ACQ+ZFdecCcsKf0H4T6u/wPwPlKiUamGmzZZm22uHAkRRvE=",
-  Ward : "%"
-}
-
-function getInPatientList() {
+function getInPatientList(param:any) {
     const res = ref([]);
     onMounted(async()=>{
         console.log("getInPatientList")
@@ -30,56 +16,69 @@ function getInPatientList() {
 	return res
 }
 
-let deptParam = {
-    HosCd : "37100092",
-    MlGb : "ko",
-    OcpTyp : "0330",
-    RetrGb : "I",
-    UserDeptCd : "2030000000",
-    UserId : "OdDN/XlHzliWjM3KI9N31N/EMdpJL/RBNH6AfUZUejfTOZXcmTlt5/mA0IkdIkI1K53r1tVnnV7ufwTYkVG8wZmBCN7duhJeUh5ev8LToNiJl/q98Y1HhlolLlzjFTVhw/JieO4lgAJPYCxoen4s2TxiKOEkfKw0kdXueptnQSU="
-}
-
-
-
-function getDeptList() {
+function getDeptList(param:any) {
     const res = ref([]);
+    let selected = ref('%');
+
     onMounted(async()=>{
-        res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,deptParam)).data.body
+        res.value = (await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)).data.body
 
         res.value.forEach((item:any)=>{
             item.value = item.DeptCd
             item.text = item.DeptNm
+
+            if(item.DeptCd == '2150000000'){
+                selected = item.DeptCd
+            }
         })
 
-        console.log(res,"321")
+        // res.value.unshift({value:'%', text:'전체'})
     })
 
     
 
-	return res
+	return {res, selected}
 }
 
-let docParam = {
-    DeptCd : "2150000000",
-    HosCd : "37100092",
-    MlGb : "ko",
-    OcpTyp : "0330",
-    RetrGb : "I",
-    UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
-}
-
-function getDoctorList(){
+function getWardList(param:any){
     const res = ref([]);
+    let selected = ref('%');
 
     onMounted(async()=>{
-        res.value = (await axiosInstance.post(proxyUrl+'/get_getDoctorListByDept'+version ,docParam)).data.body
+        res.value = (await axios.post(proxyUrl+'get_getWardList'+version ,param)).data.body
+        
+        res.value.forEach((item:any)=>{
+            item.value = item.Ward
+            item.text = item.WardNm
+        })
+        
     })
 
-	return res
+	return {res, selected}
+}
+
+function getDoctorList(param:any){
+    const res = ref([]);
+    let selected = ref('%');
+
+    onMounted(async()=>{
+        res.value = (await axios.post(proxyUrl+'get_getDoctorListByDept'+version ,param)).data.body
+        
+        res.value.forEach((item:any)=>{
+            item.value = item.DrId
+            item.text = item.DrNm
+
+            if(item.DrId == '아이디값'){
+                // console.log(`item.DrId : ${JSON.stringify(item.DrId)}`)
+                selected = item.DrId
+            }
+        })
+    })
+	return {res, selected}
 }
 
 async function getTest(){
     const res = await axios.get("https://jsonplaceholder.typicode.com/users/")
     return res.data
 }
-export { getInPatientList, getDoctorList, getDeptList, getTest }
+export { getInPatientList, getDoctorList, getWardList, getDeptList, getTest }
