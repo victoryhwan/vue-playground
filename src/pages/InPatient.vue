@@ -1,5 +1,7 @@
 <template>
-  <div class="search-group">조회 조건 영역</div>
+  <!-- <div class="search-group"> -->
+    
+  <!-- </div> -->
 
   <div class="container-fluid patient-list">
     <div class="container-fluid round bgnone" v-cloak>
@@ -7,19 +9,22 @@
         <div class="col-12 content graybox">
 
         <!-- 상단 조회조건 -->
-        <!-- <div class="search">
+        <div class="search">
           <div class="form-row">
+            <!-- <div class="col-6">
+              <SelectBoxComp></SelectBoxComp>
+            </div> -->
               <div class="col-6">
                 <SelectBoxComp :items="selectGroupData.deptList" :value="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </div>
-              <div class="col-6">
+              <!-- <div class="col-6">
                 <SelectBoxComp :items="selectGroupData.doctorList" :value="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
               </div>
               <div class="col-12 mt-2">
                 <SelectBoxComp :items="selectGroupData.wardList" :value="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
-              </div>
+              </div> -->
           </div>
-        </div> -->
+        </div>
 
         <!-- 하단 리스트 -->
         <div class="row">
@@ -69,12 +74,13 @@
 </template>
 
 <script setup>
-// import SelectBoxComp from '@/components/ui/SelectComp.vue';
-import { getInPatientList, getDoctorList } from '@/api/qab'
+import SelectBoxComp from '@/components/ui/SelectComp.vue';
+import { getInPatientList, getDeptList, getDoctorList } from '@/api/qab'
+import { ref, provide } from 'vue'
 
 /**변수 선언부*/
 const selectGroupData = {//조회조건 컴포넌트 데이터
-    deptList : [],
+    deptList : ref([]),
     wardList : [],
     doctorList : []
 }
@@ -88,14 +94,28 @@ const selectedData = { //조회조건 데이터
     checked : false
 }
 
+// let dispData = []
 // const dispData = ref([])
 let dispData = getInPatientList()
+selectGroupData.deptList = getDeptList()
+let data = selectGroupData.deptList
+console.log(selectGroupData.deptList,"selectGroupData.deptList")
 
 const changeSelectBoxDept = (data) => {
     selectedData.DeptCd = data.code
     selectGroupData.doctorList = getDoctorList()
     dispData = getInPatientList()
 }
+
+/**함수랑 변수를 자식한테 넘겨준다*/
+// provide('selectGroupData', {
+//   data
+// })
+
+
+
+/** 병동 리스트 조회 및 세팅 */
+/** 의사 리스트 조회 및 세팅 */
 
 const changeSelectBoxDr = (data) => {
     selectedData.DrId = data.code
@@ -115,6 +135,8 @@ const setPatInfo = () => { }
 
 <style scoped>
 .search-group {
+    display: flex;
+    flex-wrap: wrap;
     background-color: white;
     position: fixed !important;
     z-index: 30;
