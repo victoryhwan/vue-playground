@@ -1,40 +1,29 @@
 <template>
-
-    <div class="container-fluid">
-      <b-form @submit="submit()">
-        <b-form-group
-          id="input-group-1"
-          label="UserId:"
-          label-for="input-1"
-          description="임시로 아무 값이나 입력하세요."
-        >
-          <b-form-input
-            id="input-1"
-            placeholder="Enter UserId"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            placeholder="Enter Password"
-            required
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="input-group-3" label="hosCd:" label-for="input-3">
-          <b-form-select
-            id="input-3"
-            :options="hosCds"
-            required
-          ></b-form-select>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary">로그인</b-button>
-      </b-form>
+    <div class="login-body">
+      <div class="login">
+        <div class="text-center">
+          <h3>LemonCare</h3>
+        </div>
+        <div class="login-area">
+          <div>
+            <select class="form-control" name="" id="">
+              <option value="37100149">레몬</option>
+            </select>
+          </div>
+          <form action="">
+            <div class="form-group">
+              <label for="userid">아이디</label>
+              <input type="text" id="userid" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="pwd">비밀번호</label>
+              <input type="password" id="pwd" class="form-control">
+            </div>
+            <button type="submit" class="btn-login btn" @click="submit()">로그인</button>
+          </form>
+        </div>
+      </div>      
     </div>
-    <div>UserId : {{ userStore.user.UserNm }}</div>
   </template>
   
   <script setup>
@@ -52,9 +41,75 @@
     }
   }
 
-  </script>
+</script>
 
-  <style>
+<style>
+.login-body {
+  background-color: #23549b;
+  width: 100%;
+  height: 100vh;
+}
+.text-center h3{
+  text-align: center !important;
+}
+.text-center {
+  color: aliceblue;
+}
 
-  </style>
+.login {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    padding: 95px 20px 40px;
+    background-color: #23549b;
+    /* background-image: url(../../media/images/bg_login2_1.png), url(../../media/images/bg_login2_2.png); */
+    /* background-position: center top, center bottom; */
+    /* background-repeat: no-repeat; */
+    /* background-size: contain, contain; */
+}
+
+.login-area {
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    width: 320px;
+    height: 248px;
+    padding: 20px;
+    margin-left: -160px;
+    font-size: 16px;
+    color: #969696;
+    background-color: #fff;
+    border-radius: 15px;
+}
+.login-area .form-group{
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+    border-bottom: 1px solid #d4d4d4;
+}
+.login-area .form-group label{
+    float: left;
+    width: 70px;
+    line-height: 45px;
+}
+.login-area .form-group .form-control{
+    float: right;
+    width: calc(100% - 70px);
+    height: 45px;
+    line-height: 45px;
+    border: none;
+}
+.login-area .btn-login{
+    width: 100%;
+    height: 45px;
+    padding: 0;
+    margin-top: 30px;
+    line-height: 45px;
+    text-align: center;
+    color: #fff;
+    border-radius: 22px;
+    background-color: #29589d;
+    border-color: #29589d;
+}
+</style>
   
