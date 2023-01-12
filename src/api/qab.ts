@@ -3,7 +3,7 @@ import { axiosInstance } from '@/api/util/axiosConfig';
 
 // const {proxy} = getCurrentInstance();
 const proxyUrl = '/qabApi'
-const version = '/v4'
+const version = ''
 
 async function getInPatientList(param:any) {
     const res:any = await axiosInstance.post(proxyUrl+'/get_getInPatientList'+version ,param)
