@@ -16,12 +16,12 @@ async function getDeptList(param:any) {
 }
 
 async function getWardList(param:any){
-    const res:any = await axiosInstance.post(proxyUrl+'get_getWardList'+version ,param)
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getWardList'+version ,param)
     return res.data.body
 }
 
 async function getDoctorList(param:any){
-    const res:any = await axiosInstance.post(proxyUrl+'get_getDoctorListByDept'+version ,param)
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getDoctorListByDept'+version ,param)
     return res.data.body
 }
 
