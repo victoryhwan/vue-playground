@@ -19,6 +19,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (err:any) => {
+    console.log(`axios request failed: ${err}`)
     return Promise.reject(err);
   },
 );
@@ -28,6 +29,7 @@ axiosInstance.interceptors.response.use(
     return config;
   },
   (err:any) => {
+    console.log(`axios response failed: ${err}`)
     /* 
       todo : 토큰이 없는 경우(return code 정의 필요.) refresh token 처리 로직 필요.
      */

@@ -19,7 +19,10 @@
               <label for="pwd">비밀번호</label>
               <input type="password" id="pwd" class="form-control">
             </div>
-            <button type="submit" class="btn-login btn" @click="submit()">로그인</button>
+            <button type="button" class="btn-login btn" style="display: flex; place-items: center; justify-content: center" @click="submit()">
+              <div>로그인</div>
+              <div v-show="isLoading" class="spinner-border text-primary" style="margin-left: 5px" role="status"></div>
+            </button>
           </form>
         </div>
       </div>      
@@ -29,15 +32,23 @@
   <script setup>
   import {login} from '@/api/auth'
   import { useUserStore } from '@/stores/pinia/user.store';
+  import { useRouter, useRoute } from 'vue-router'
+  import { ref } from 'vue'
 
+  const router = useRouter()
   const userStore = useUserStore()
   const hosCds = [{ text: 'Select One', value: null }, { text: 'test', value: "testCd" }, 'Beans', 'Tomatoes', 'Corn']
+  const isLoading = ref(false)
+
   const submit = async ()=>{
+    isLoading.value = true
     let res = await login()
+    isLoading.value = false
     if(res){
       console.log("로그인 성공")
+      router.push("/inPatientList")
     }else{
-      console.log("로그인 실패")
+      alert("로그인 실패")
     }
   }
 

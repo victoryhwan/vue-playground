@@ -64,14 +64,3 @@ export async function refreshToken(){
     }
     return resultStatus
 }
-
-//test 
-export async function getUser(){
-    const res = await axios.get(proxyUrl+'/user')
-    return res.data
-}
-
-export async function getTest(){
-    const res = await axios.get("https://jsonplaceholder.typicode.com/users/")
-    return res.data
-}
