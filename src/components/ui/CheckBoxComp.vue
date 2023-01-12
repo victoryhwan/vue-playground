@@ -1,6 +1,6 @@
 <template>
     <div>
-        <input type="checkbox" :id="id" @change.prevent="onChange($event)" v-model="this.value">
+        <input type="checkbox" :id="id" @change.prevent="onChange($event)" :v-model="value">
         <label :for="id" style="font-size: 15px">
             <span style="width: 60px; display: inline-block; font-size: 15px;">{{labelName}}</span>
         </label>

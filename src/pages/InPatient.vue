@@ -9,15 +9,15 @@
           <div class="form-row">
             <b-row>
               <b-col>
-                <SelectBoxComp :items="selectGroupData.deptList" :selected="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
+                <SelectBoxComp :items="selectGroupData.deptList" v-model="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
               </b-col>
               <b-col class="right-col">
-                <SelectBoxComp :items="selectGroupData.doctorList" :selected="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
+                <SelectBoxComp :items="selectGroupData.doctorList" v-model="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
               </b-col>
             </b-row>
             <b-row>
               <b-col>
-                <SelectBoxComp :items="selectGroupData.wardList" :selected="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
+                <SelectBoxComp :items="selectGroupData.wardList" v-model="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
               </b-col>
             </b-row>
           </div>
@@ -83,14 +83,13 @@ const selectGroupData = reactive({
 })
 
 const selectedData = reactive({ //조회조건 데이터
-    DeptCd : '', //부서코드
-    Ward : '', //병동코드
-    DrId : '',//의사Id
+    DeptCd : '%', //부서코드
+    Ward : '%', //병동코드
+    DrId : '%',//의사Id
     calendar : new Date(),  //TODO: 변경해야한다
     calendarDisabled : true,
     checked : false
 })
-
 
 let param = {
   AdmiPlanYmd : "",
@@ -129,30 +128,21 @@ let docParam = {
 }
 
 const dispData = reactive([])
-const deptData = reactive({})
-const wardData = reactive({})
-const docData = reactive({})
 
 onMounted(async() => {
   dispData.value = await getInPatientList(param)
 
-  deptData.value = await getDeptList(deptParam)
-  // deptList.value = deptData.value.res
-  selectGroupData.deptList = deptData.value.res
-  selectedData.DeptCd = deptData.value.selected
+  /** 조회 및 세팅 */
+  selectGroupData.deptList = await getDeptList(deptParam)
+  setSelectComp(selectGroupData.deptList, 'DeptCd','DeptNm')
 
   /** 병동 리스트 조회 및 세팅 */
-  wardData.value = await getWardList(wardParam)
-  console.log(wardData.value,"wardData.value")
-  // wardList.value = wardData.value.res
-  selectGroupData.wardList = wardData.value.res
-  selectedData.Ward = wardData.value.selected
+  selectGroupData.wardList = await getWardList(wardParam)
+  setSelectComp(selectGroupData.wardList, 'Ward','WardNm')
 
   /** 의사 리스트 조회 및 세팅 */
-  docData.value = await getDoctorList(docParam)
-  // doctorList.value = docData.value.res
-  selectGroupData.doctorList = docData.value.res
-  selectedData.DrId = docData.value.selected
+  selectGroupData.doctorList = await getDoctorList(docParam)
+  setSelectComp(selectGroupData.doctorList, 'DrId','DrNm')
 })
 
 /**TODO: 변수값 바꿔주기*/
@@ -163,7 +153,22 @@ const changeSelectBoxDept = async (data) => {
   param.DeptCd = selectedData.DeptCd
 
   selectGroupData.doctorList = await getDoctorList(docParam)
+  setSelectComp(selectGroupData.doctorList, 'DrId','DrNm')
+
   dispData.value = await getInPatientList(param)
+}
+
+const setSelectComp = (val,myVal,myTxt) => {
+  val.forEach((item) => {
+    item.value = item[myVal]
+    item.text = item[myTxt]
+
+    if(item[myVal] == '로그인아이디'){
+      selectedData[myVal] = item[myVal]
+    }
+  });
+
+  val.unshift({value:'%',text:'전체'})
 }
 
 const changeSelectBoxDr = async (data) => {

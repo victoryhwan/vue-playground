@@ -1,4 +1,3 @@
-import { ref, onMounted, reactive, getCurrentInstance } from 'vue'
 import axios from 'axios';
 import { axiosInstance } from '@/api/util/axiosConfig';
 
@@ -13,50 +12,17 @@ async function getInPatientList(param:any) {
 
 async function getDeptList(param:any) {
     const res:any = await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)
-    const selected:string = '%'
-
-    res.data.body.forEach((item:any) => {
-        item.value = item.DeptCd
-        item.text = item.DeptNm
-
-        // if(item.DeptCd == '2150000000'){
-        //     selected = item.DeptCd
-        // }
-    });
-
-    res.data.body.unshift({value:'%',text:'전체'})
-    return { res:res.data.body, selected:selected }
+    return res.data.body
 }
 
 async function getWardList(param:any){
     const res:any = await axiosInstance.post(proxyUrl+'get_getWardList'+version ,param)
-    const selected:string = '%'
-
-    res.data.body.forEach((item:any) => {
-        item.value = item.Ward
-        item.text = item.WardNm
-    });
-
-    res.data.body.unshift({value:'%',text:'전체'})
-    return { res:res.data.body, selected:selected }
-
+    return res.data.body
 }
 
 async function getDoctorList(param:any){
     const res:any = await axiosInstance.post(proxyUrl+'get_getDoctorListByDept'+version ,param)
-    const selected:string = '%'
-
-    res.data.body.forEach((item:any) => {
-        item.value = item.DrId
-        item.text = item.DrNm
-
-        // if(item.DrId == '아이디값'){
-        //     selected = item.DrId
-        // }
-    });
-
-    res.data.body.unshift({value:'%',text:'전체'})
-    return { res:res.data.body, selected:selected }
+    return res.data.body
 }
 
 async function getTest(){
