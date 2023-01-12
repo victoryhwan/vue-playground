@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper sideMenu" v-show="sideMenu.status">
     <nav class="on">
-      <div class="nav-trigger" ref="_trigger"></div>
+      <div class="nav-trigger" @click="sideMenu.close()" ref="_trigger"></div>
       <div class="nav-wrap">
         <div class="nav-container">
           <div class="nav-header d-flex justify-content-between">
@@ -59,27 +59,27 @@
                   <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#listMoreInfo" aria-expanded="false" aria-controls="listMoreInfo">환자검색</a>
                   <ul class="collapse" id="listMoreInfo">
                     <li>
-                        <RouterLink to="/login" @click="sideMenu.close()">
-                        Login</RouterLink>
+                      <RouterLink to="/login" @click="sideMenu.close()">Login</RouterLink>
+                      <ul>
+                          <!-- <li v-for="(itemLvl3, index2) in itemLvl2.children" :key="'lvl-3-'+index2"> -->
+                          <li>
+                              <a href="javascript:void(0)"></a>
+                              <div class="star-house favoritbtn"></div>
+                              <!-- <div class="star-house" :class="item.menuType == 'FAVOR'? 'favoritbtn-on' : 'favoritbtn'"></div> -->
+                          </li>
+                        </ul>
                     </li>
                     <li>
-                        <RouterLink to="/" @click="sideMenu.close()">
-                          Home</RouterLink>
+                      <RouterLink to="/" @click="sideMenu.close()">Home</RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/about" @click="sideMenu.close()"
-                        >About</RouterLink
-                      >
+                      <RouterLink to="/about" @click="sideMenu.close()">About</RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/inPatientList" @click="sideMenu.close()"
-                        >입원환자명단</RouterLink
-                      >
+                      <RouterLink to="/inPatientList" @click="sideMenu.close()">입원환자명단</RouterLink>
                     </li>
                     <li>
-                      <RouterLink to="/outPatientList" @click="sideMenu.close()"
-                        >외래환자명단</RouterLink
-                      >
+                      <RouterLink to="/outPatientList" @click="sideMenu.close()">외래환자명단</RouterLink>
                     </li>
                   </ul>
                 </li>
@@ -88,8 +88,7 @@
                   <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#outMoreInfo" aria-expanded="false" aria-controls="outMoreInfo">일정관리</a>
                   <ul class="collapse" id="outMoreInfo">
                     <li>
-                        <RouterLink to="/login" @click="sideMenu.close()">
-                        외래진료일정</RouterLink>
+                      <RouterLink to="/login" @click="sideMenu.close()">외래진료일정</RouterLink>
                     </li>
                   </ul>
                 </li>
@@ -101,10 +100,26 @@
       </div>
     </nav>
   </div>
+
 </template>
 
 <script setup>
 import { sideMenu } from "../../stores/store";
+import { onMounted, ref, reactive, provide } from 'vue'
+
+
+onMounted(async() => {
+  // const checkClassFavor = (item) => {
+  //       if( item.menuType === "FAVOR") {
+  //           return "favoritbtn-on";
+  //       }else{
+  //           return "favoritbtn";
+  //       }
+  //   }
+})
+
+
+
 
 /**
  * * 사이드메뉴 open : window.sideMenu.open()
@@ -171,6 +186,52 @@ window.sideMenu = {
     background: url(../../assets/ico_nav_setting.png) 0 0 no-repeat;
     background-size: 100%;
 }
+.icon-edit {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+.hidden {
+    overflow: hidden;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    width: 1px;
+    height: 0;
+    font-size: 1px;
+}
+nav .favoritbtn {
+    display: block;
+    content: '';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    width: 16px;
+    height: 15px;
+    margin-top: -7.5px;
+    background: url(../../assets/ico_favorite.png) 10px 10px no-repeat;
+}
+nav .favoritbtn-on {
+  display: block;
+    content: "";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    width: 16px;
+    height: 15px;
+    margin-top: -7.5px;
+    background: url(../../assets/ico_favorite_on.png) 10px 10px no-repeat;
+}
+nav .nav-menu > ul > li > ul > li .star-house {
+    display: inline-block;
+    width: 50px;
+    height: 40px;
+    position: absolute;
+    top: 12px;
+    right: 0px;
+}
+
 a{
   text-decoration: none;
 }
@@ -182,6 +243,7 @@ nav {
   width: 100%;
   height: 100%;
 }
+nav.on{display: block;}
 ul {
   list-style: none;
   padding-left: 0px;
@@ -284,19 +346,15 @@ nav .nav-category li {
 .not-collapsed > .when-closed {
   display: none;
 }
-.icon-edit {
-    display: inline-block;
-    position: relative;
-    width: 30px;
-    height: 30px;
-}
-.hidden {
-    overflow: hidden;
+nav .nav-category:before {
+    display: block;
+    content: "";
     position: absolute;
-    top: -9999px;
-    left: -9999px;
+    right: -1px;
+    top: 0;
+    z-index: 0;
     width: 1px;
-    height: 0;
-    font-size: 1px;
+    height: 100%;
+    background-color: #ddd;
 }
 </style>
