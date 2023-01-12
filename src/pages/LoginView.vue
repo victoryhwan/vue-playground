@@ -7,7 +7,8 @@
         <div class="login-area">
           <div>
             <select class="form-control" name="" id="">
-              <option value="37100149">레몬</option>
+              <option value="37100149">레몬병원</option>
+              <option value="37100149">기타병원</option>
             </select>
           </div>
           <form action="">
@@ -59,6 +60,8 @@
   background-color: #23549b;
   width: 100%;
   height: 100vh;
+  margin-top: -55px;
+  z-index: 40;
 }
 .text-center h3{
   text-align: center !important;
