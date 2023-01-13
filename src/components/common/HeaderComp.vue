@@ -1,11 +1,12 @@
 <template>
     <header class="headView">
-        <h2>헤더</h2>
+        <h2>{{pageName}}</h2>
     </header>
   </template>
   
   <script setup>
-
+  import { inject } from 'vue'
+  const pageName = inject('pageName')
   </script>
 
   <style>
