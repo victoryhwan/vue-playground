@@ -61,11 +61,9 @@
                     <li>
                       <RouterLink to="/login" @click="sideMenu.close()">Login</RouterLink>
                       <ul>
-                          <!-- <li v-for="(itemLvl3, index2) in itemLvl2.children" :key="'lvl-3-'+index2"> -->
                           <li>
                               <a href="javascript:void(0)"></a>
                               <div class="star-house favoritbtn"></div>
-                              <!-- <div class="star-house" :class="item.menuType == 'FAVOR'? 'favoritbtn-on' : 'favoritbtn'"></div> -->
                           </li>
                         </ul>
                     </li>
@@ -81,6 +79,18 @@
                     <li>
                       <RouterLink to="/outPatientList" @click="sideMenu.close()">외래환자명단</RouterLink>
                     </li>
+                    <li>
+                      <RouterLink to="/emPatientList" @click="sideMenu.close()">응급환자명단</RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/opPatientList" @click="sideMenu.close()">수술환자명단</RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/coPatientList" @click="sideMenu.close()">협진환자명단</RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/rvPatientList" @click="sideMenu.close()">회진환자명단</RouterLink>
+                    </li>
                   </ul>
                 </li>
 
@@ -88,7 +98,7 @@
                   <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#outMoreInfo" aria-expanded="false" aria-controls="outMoreInfo">일정관리</a>
                   <ul class="collapse" id="outMoreInfo">
                     <li>
-                      <RouterLink to="/login" @click="sideMenu.close()">외래진료일정</RouterLink>
+                      <RouterLink to="/outTrtPlan" @click="sideMenu.close()">외래진료일정</RouterLink>
                     </li>
                   </ul>
                 </li>
