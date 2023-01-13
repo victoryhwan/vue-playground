@@ -7,27 +7,61 @@
         <!-- 상단 조회조건 -->
         <div class="search">
           <div class="form-row">
-            <b-row>
-              <b-col>
-                <SelectBoxComp :items="selectGroupData.deptList" v-model="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
-              </b-col>
-              <b-col class="right-col">
-                <SelectBoxComp :items="selectGroupData.doctorList" v-model="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <SelectBoxComp :items="selectGroupData.wardList" v-model="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
-              </b-col>
-            </b-row>
+          <b-row>
+            <b-col>
+              <SelectBoxComp :items="selectGroupData.deptList" v-model="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
+            </b-col>
+            <b-col class="right-col">
+              <SelectBoxComp :items="selectGroupData.doctorList" v-model="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <SelectBoxComp :items="selectGroupData.opCntrList" v-model="selectedData.OpCntrCd" @select-change="changeSelectBoxOpCntr"></SelectBoxComp>
+            </b-col>
+            <b-col class="right-col">
+              <SelectBoxComp :items="selectGroupData.OpProgStusList" v-model="selectedData.OpProgStus" @select-change="changeSelectBoxOpProgStus"></SelectBoxComp>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <CalendarComp v-model="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></CalendarComp>
+            </b-col>
+            <b-col class="right-col">
+              <ButtonComp>조회</ButtonComp>
+            </b-col>
+          </b-row>
           </div>
         </div>
 
         <!-- 하단 리스트 -->
         <div class="row">
           <div class="col-12">
+            <div class="list-total">
+                  <span>총 <span class="text-color-red">{{dispData.length}}</span>건</span>
+                  <div style="display: inline-block;">
+                    <CheckBoxComp :label-name="'로컬마취제외'" class="text-muted"></CheckBoxComp>
+                  </div>
+                  <div>
+                    <b-col>
+                      <SelectBoxComp class="form-control" :items="selectGroupData.orderDataList" v-model="selectedData.selectedOrder" @select-change="myChangeOrder"></SelectBoxComp>
+                    </b-col>
+                </div>
+            </div>
+
             <div class="py-4">
               <div class="patient-cardbox" v-for="item in dispData.value" :key="item.id">
+                  <div class="group">
+                      <div class="pos">
+                        <span class="badge2 badge-color5">{{item.OpCntrNm}}</span>
+                        <!-- <span :class="setStatCls(item.OpProgStus)">{{item.OpRoomCd}} / {{item.OpSeq}} / {{item.OpProgStusNm}}</span> -->
+                        <span class="badge2 badge-out-color2" v-if="item.SyncOpMainSub === 'M'">주</span>
+                        <span class="badge2 badge-out-color3" v-else-if="item.SyncOpMainSub === 'S'">
+                            <i class="icon-link"></i>
+                        </span>
+                      </div>
+                      <a href="javascript:void(0)" class="menu" style="z-index: 3;" @click.stop="openMenu(item)">메뉴</a>
+                  </div>
                   <div class="group">
                       <div class="pos">
                           {{item.Ward}}
@@ -36,29 +70,30 @@
                           <span class="text-liner"></span>
                           {{item.PatBed}}
                       </div>
-                      <div class="leave" v-if="item.opGubun=='0'">
-                          <span class="today-badge mr-2" v-if="item.opGubun=='0'">퇴원일</span>
-                          {{(item.DscPlanYmd)}}
-                      </div>
-                      <div class="green-leave" v-if="( item.opGubun=='1' || item.opGubun=='2' )">
-                          <span class="green-badge mr-2" v-if="item.opGubun=='1'">수술일</span>
-                          <span class="green-badge mr-2" v-if="item.opGubun=='2'">수술예정일</span>
-                          {{(item.DscPlanYmd)}}
-                      </div>
-                      <a href="javascript:void(0)" class="menu" style="z-index: 3;" @click.stop="openMenu(item)">메뉴</a>
+                      <p>{{item.AnsGbNm}}</p>
                   </div>
+
                   <div class="group" @click.stop="clickedPatient(item)">
-                      <div class="block">
-                          <p class="name"><i class="icon-samename" v-if="item.isSameNm"></i> {{item.UnitNo}} {{item.PatNm}}({{item.Sex}}/{{item.Age}})</p>
+                       <div class="block">
+                          <p class="name"><i class="icon-samename mr-1" v-if="item.isSameNm"></i> {{item.UnitNo}} {{item.PatNm}}({{item.Sex}}/{{item.Age}})</p>
                       </div>
                       <div class="block">
                           <p class="doctor">{{item.DeptNm}} <span class="text-liner"></span> {{item.DrNm}}</p>
-                          <p>{{(item.AdmiDt)}}</p>
+                          <p>{{item.OpDt}}</p>
+                          <!-- <p>{{dateFormatter(item.OpDt)}}</p> -->
                       </div>
                   </div>
-                  <div class="group" v-if="item.NurAssnYn == 'N' && userInfo.OcpTyp == 'N'">
-                      <a href="javascript:void(0)" class="btn btn-size fw-medium btn-out-color1" data-toggle="modal" @click="setPatInfo(item)" data-target="#patient-set">{{Multilingual.patAssn}}</a>
+                  <div class="group" v-if="isAnsDep">
+                      <div class="block">
+                          <div class="fw-medium">
+                              <span class="well-mark">Dx</span> {{item.DiagEngNm}}
+                          </div>
+                          <div class="fw-medium">
+                              <span class="well-mark">Op</span> {{item.OpEngNm}}
+                          </div>
+                      </div>
                   </div>
+
               </div>
             </div>
           </div>
@@ -72,37 +107,42 @@
 
 <script setup>
 import SelectBoxComp from '@/components/ui/SelectComp.vue';
-import { getInPatientList, getDeptList, getWardList, getDoctorList } from '@/api/qab'
+import { getOpPatientList, getDeptList, getDoctorList, getOpCntrList } from '@/api/qab'
 import { onMounted, ref, reactive, provide } from 'vue'
+import CalendarComp from '@/components/ui/CalendarComp.vue';
+import CheckBoxComp from '@/components/ui/CheckBoxComp.vue';
+import ButtonComp from '@/components/ui/ButtonComp.vue';
 
 /**변수 선언부*/
 const selectGroupData = reactive({
   deptList:[],
-  wardList:[],
-  doctorList:[]
+  opCntrList:[],
+  doctorList:[],
+  OpProgStusList:[]
 })
 
 const selectedData = reactive({ //조회조건 데이터
     DeptCd : '%', //부서코드
-    Ward : '%', //병동코드
-    DrId : '%',//의사Id
+    DrId : '%',//의사Id,
+    OpCntrCd : '%', //수술실코드
+    OpProgStus: '%', //진행상태
+    selectedOrder: '%', //sort
     calendar : new Date(),  //TODO: 변경해야한다
     calendarDisabled : true,
     checked : false
 })
 
 let param = {
-  AdmiPlanYmd : "",
-  AdmiPlanYn : "N",
-  DeptCd : "2150000000",
-  DrId : "%",
-  HosCd : "37100092",
-  NurId : "",
-  OcpTyp : "0330",
-  RetrYmd : "20230105",
-  Room : "%",
-  UserId : "JR1zxnV15TN3W0g1sZtRY+SDyuhup0z052GS+iBB1Jlu2NQxCD+r9iXpZZUsgbUDmqFztWa4NsdNgZ999npeuMbfhrcfV5jtvLxBd4vGtvaByOJKwKxqVCvHdV58ACQ+ZFdecCcsKf0H4T6u/wPwPlKiUamGmzZZm22uHAkRRvE=",
-  Ward : "%"
+  HosCd: "37100092",
+  UserId: "C00r06jOv26/xVG74VeIcM7n4kqIo1p1FGh2V9GdwqdXZSc7CPuq0I802t0Q9rejbIkf/Xq6mIqQO9yH2hCkCD4Q3WVsF7YrX7tj52rh5oBqj+UsJT389JmCVMmssSYqvTR2//8ZKIu6TQ3pweB1qcUCpkBm6GNn/HAfGtJPKOc=",
+  MlGb: "ko",
+  OcpTyp: "0330",
+  RetrFrYmd: "20221021",
+  RetrToYmd: "20221021",
+  DeptCd: "%",
+  DrId: "%",
+  OpCntrCd: "%",
+  OpProgStus: "%"
 }
 let deptParam = {
     HosCd : "37100092",
@@ -112,11 +152,12 @@ let deptParam = {
     UserDeptCd : "2030000000",
     UserId : "OdDN/XlHzliWjM3KI9N31N/EMdpJL/RBNH6AfUZUejfTOZXcmTlt5/mA0IkdIkI1K53r1tVnnV7ufwTYkVG8wZmBCN7duhJeUh5ev8LToNiJl/q98Y1HhlolLlzjFTVhw/JieO4lgAJPYCxoen4s2TxiKOEkfKw0kdXueptnQSU="
 }
-let wardParam = {
-    HosCd : '37100092',
-    UserId : 'AsE27YR8JUCnUUAgk+bTkg1fqFvv3f68iIOMnnrLEzQKoq1snQzPoZeFK+KAI9x7lZPXEjyUdnRJNmf1zyuK5L3iN9c/2QrkHJfwMYqlf9gvYMIJatU/ZODaSLSMrp3slG1cwpIyzKBYH6xtdm+DsuQ/1JuDAabqC4oAHSN1Tws=',
-    OcpTyp : '0330',
-    RetrGb : 'I'
+let opCntrParam = {
+  HosCd: "37100092",
+  UserId: "NEVea7C3ndqKxiKOgy/A2cBeMUgOV5kvkt+MzRkuG5JMHyq1MLWihaJst9cTDlF5Kxxr+KVXrCVe5w8izqOq3FmoU3mvA4O8d4nOnunJvrsn5BEWf50ReUbtY4sGft8zwO9SjCM8ao7yqJO4gCiMX80e5vu02GUgaftZOJJwutY=",
+  RetrGb: "OP",
+  MlGb: "ko",
+  OcpTyp: "0330"
 }
 let docParam = {
     DeptCd : "2150000000",
@@ -126,23 +167,45 @@ let docParam = {
     RetrGb : "I",
     UserId : "NkuDjXcHFaY3cPFSVhqMKGDl43lMt5Akmj3TG74jbAvUMUMWVpMOj5Ow1bOdr7QgRTsuli/UytIHLWi5PCbj4Cnph62VeC81bw3NapnB63F4p2AmKXqgZWTeI3VyrqF18sdQ8WSN3MPPFk62EgClUbnpnXmFDNoA8GKSfs7fUJw="
 }
+/** 진행상태 (OpProgStus) 및 세팅 */
+let opProgStusList = [
+  {code: "A", name: '예정'},
+  {code: "B", name: '진행'},
+  {code: "C", name: '종료'},
+]
+
+let orderDataList = [
+    {type: 'a', value: 'OpDt',     ko: '수술일시', en: 'Op Dt'},
+    {type: 'a', value: 'PatNm',    ko: '환자명',   en: 'Patient Name'},
+    {type: 'a', value: 'OpCntrNm', ko: '수술방',   en: 'Op Room'}
+]
 
 const dispData = reactive([])
 
 onMounted(async() => {
-  dispData.value = await getInPatientList(param)
+  dispData.value = await getOpPatientList(param)
 
   /** 조회 및 세팅 */
   selectGroupData.deptList = await getDeptList(deptParam)
   setSelectComp(selectGroupData.deptList, 'DeptCd','DeptNm')
 
-  /** 병동 리스트 조회 및 세팅 */
-  selectGroupData.wardList = await getWardList(wardParam)
-  setSelectComp(selectGroupData.wardList, 'Ward','WardNm')
+  /** 수술실 리스트 조회 및 세팅 */
+  selectGroupData.opCntrList = await getOpCntrList(opCntrParam)
+  setSelectComp(selectGroupData.opCntrList, 'OpCntrCd','OpCntrNm')
 
   /** 의사 리스트 조회 및 세팅 */
   selectGroupData.doctorList = await getDoctorList(docParam)
   setSelectComp(selectGroupData.doctorList, 'DrId','DrNm')
+
+   /** 진행상태 조회 및 세팅 */
+   selectGroupData.OpProgStusList = opProgStusList
+  setSelectComp(selectGroupData.OpProgStusList, 'code','name')
+
+   /** sort 조회 및 세팅 */
+   selectGroupData.orderDataList = orderDataList
+  setSelectComp(selectGroupData.orderDataList, 'value','ko')
+
+  
 })
 
 /**TODO: 변수값 바꿔주기*/
@@ -155,7 +218,7 @@ const changeSelectBoxDept = async (data) => {
   selectGroupData.doctorList = await getDoctorList(docParam)
   setSelectComp(selectGroupData.doctorList, 'DrId','DrNm')
 
-  dispData.value = await getInPatientList(param)
+  dispData.value = await getOpPatientList(param)
 }
 
 const setSelectComp = (val,myVal,myTxt) => {
@@ -175,14 +238,21 @@ const changeSelectBoxDr = async (data) => {
   selectedData.DrId = data
   param.DrId = selectedData.DrId
   
-  dispData.value = await getInPatientList(param)
+  dispData.value = await getOpPatientList(param)
 }
-const changeSelectBoxWard = async (data) => {
-  selectedData.Ward = data
-  param.Ward = selectedData.Ward
+const changeSelectBoxOpCntr = async (data) => {
+  selectedData.OpCntrCd = data
+  param.OpCntrCd = selectedData.OpCntrCd
 
-  dispData.value = await getInPatientList(param)
+  dispData.value = await getOpPatientList(param)
 }
+const changeSelectBoxOpProgStus = async (data) => {
+  selectedData.OpProgStus = data
+  param.OpProgStus = selectedData.OpProgStus
+
+  dispData.value = await getOpPatientList(param)
+}
+
 const openMenu = () => { }
 const clickedPatient = () => { }
 const setPatInfo = () => { }
@@ -289,4 +359,44 @@ const setPatInfo = () => { }
 p {
   margin-bottom: 0px;
 }
+.btn-search {
+  min-width: 100%;
+  margin-left: 0;
+}
+
+input{
+    font-family: inherit;
+    font-weight: 400;
+    font-size: /*14px*/0.875rem;
+    color: #222;
+    line-height: 1;
+    border-radius: 4px;
+    border-radius: 4px;
+}
+.list-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 -15px;
+    flex-flow: row wrap;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+}
+.list-total span {
+    font-size: 13px;
+}
+.text-color-red {
+    color: #dd4132 !important;
+}
+.list-total .form-control {
+    padding-left: 10px;
+    width: 20px;
+    min-width: 100px;
+    height: 32px;
+    border-radius: 16px;
+    line-height: inherit;
+    font-size: 0.875rem !important;
+}
+
 </style>

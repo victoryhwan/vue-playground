@@ -33,5 +33,10 @@ const onChange = (event) => {
     height: 40px !important;
     border-radius: 5px !important;
     background: url(../../../src/assets/ico_calendar.png) right 10px center no-repeat;
+    font-weight: 400;
+    font-size: 0.875rem;
+    color: #222;
+    line-height: 1;
+    padding: 4px 6px;
 }
 </style>
