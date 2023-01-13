@@ -35,6 +35,7 @@
   import { useUserStore } from '@/stores/pinia/user.store';
   import { useRouter, useRoute } from 'vue-router'
   import { ref } from 'vue'
+  import { setLogoutTimer } from '@/common/auth/auth';
 
   const router = useRouter()
   const userStore = useUserStore()
@@ -47,6 +48,7 @@
     isLoading.value = false
     if(res){
       console.log("로그인 성공")
+      setLogoutTimer(10)
       router.push("/inPatientList")
     }else{
       alert("로그인 실패")
