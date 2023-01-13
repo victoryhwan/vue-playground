@@ -10,6 +10,16 @@ async function getInPatientList(param:any) {
     return res.data.body
 }
 
+async function getOpPatientList(param:any) {
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getOpPatientList'+version ,param)
+    return res.data.body
+}
+
+async function getOpCntrList(param:any) {
+    const res:any = await axiosInstance.post(proxyUrl+'/get_getOpCntrList'+version ,param)
+    return res.data.body
+}
+
 async function getDeptList(param:any) {
     const res:any = await axiosInstance.post(proxyUrl+'/get_getDeptList'+version ,param)
     return res.data.body
@@ -29,4 +39,4 @@ async function getTest(){
     const res = await axios.get("https://jsonplaceholder.typicode.com/users/")
     return res.data
 }
-export { getInPatientList, getDoctorList, getWardList, getDeptList, getTest }
+export { getInPatientList, getOpPatientList, getOpCntrList, getDoctorList, getWardList, getDeptList, getTest }
