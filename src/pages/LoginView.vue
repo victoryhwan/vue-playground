@@ -55,9 +55,12 @@
 
 </script>
 
-<style>
+<style lang="scss" scoped>
+
+$main-color : #23549b;
+$btn-color : #29589d;
 .login-body {
-  background-color: #23549b;
+  background-color: $main-color;
   width: 100%;
   height: 100vh;
   margin-top: -55px;
@@ -75,7 +78,7 @@
     width: 100%;
     height: 70%;
     padding: 95px 20px 40px;
-    background-color: #23549b;
+    background-color: $main-color;
     /* background-image: url(../../media/images/bg_login2_1.png), url(../../media/images/bg_login2_2.png); */
     /* background-position: center top, center bottom; */
     /* background-repeat: no-repeat; */
@@ -83,37 +86,41 @@
 }
 
 .login-area {
-    position: absolute;
-    left: 50%;
-    top: 200px;
-    width: 320px;
-    height: 248px;
-    padding: 20px;
-    margin-left: -160px;
-    font-size: 16px;
-    color: #969696;
-    background-color: #fff;
-    border-radius: 15px;
-}
-.login-area .form-group{
-    display: flex;
-    width: 100%;
-    margin-bottom: 0;
-    border-bottom: 1px solid #d4d4d4;
-}
-.login-area .form-group label{
-    float: left;
-    width: 70px;
-    line-height: 45px;
-}
-.login-area .form-group .form-control{
-    float: right;
-    width: calc(100% - 70px);
-    height: 45px;
-    line-height: 45px;
-    border: none;
-}
-.login-area .btn-login{
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  width: 320px;
+  height: 248px;
+  padding: 20px;
+  margin-left: -160px;
+  font-size: 16px;
+  color: #969696;
+  background-color: #fff;
+  border-radius: 15px;
+
+  .form-group{
+      display: flex;
+      width: 100%;
+      margin-bottom: 0;
+      border-bottom: 1px solid #d4d4d4;
+
+    label{
+      float: left;
+      width: 70px;
+      line-height: 45px;
+    }
+
+    .form-control{
+      float: right;
+      width: calc(100% - 70px);
+      height: 45px;
+      line-height: 45px;
+      border: none;
+    }
+
+  }
+
+  .btn-login{
     width: 100%;
     height: 45px;
     padding: 0;
@@ -122,8 +129,10 @@
     text-align: center;
     color: #fff;
     border-radius: 22px;
-    background-color: #29589d;
-    border-color: #29589d;
+    background-color: $btn-color;
+    border-color: $btn-color;
+  }
 }
+
 </style>
   
