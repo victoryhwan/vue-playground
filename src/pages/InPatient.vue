@@ -1,27 +1,38 @@
 <template>
-  <div class="container-fluid patient-list">
-    <div class="container-fluid round bgnone" v-cloak>
+  <div class="patient-list">
+    <div class="round bgnone" v-cloak>
       <section class="row content-wrap">
         <div class="col-12 content graybox">
 
         <!-- 상단 조회조건 -->
         <div class="search">
-          <div class="form-row">
-            <b-row>
-              <b-col>
-                <SelectBoxComp :items="selectGroupData.deptList" v-model="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
-              </b-col>
-              <b-col class="right-col">
-                <SelectBoxComp :items="selectGroupData.doctorList" v-model="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col>
-                <SelectBoxComp :items="selectGroupData.wardList" v-model="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
-              </b-col>
-            </b-row>
-          </div>
+          <b-row>
+            <b-col>
+              <SelectBoxComp :items="selectGroupData.deptList" v-model="selectedData.DeptCd" @select-change="changeSelectBoxDept"></SelectBoxComp>
+            </b-col>
+            <b-col class="right-col">
+              <SelectBoxComp :items="selectGroupData.doctorList" v-model="selectedData.DrId" @select-change="changeSelectBoxDr"></SelectBoxComp>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <SelectBoxComp :items="selectGroupData.wardList" v-model="selectedData.Ward" @select-change="changeSelectBoxWard"></SelectBoxComp>
+            </b-col>
+          </b-row>
+          <b-row align-h="between" style="margin: 12px 0;align-items: center;">
+            <b-col cols="3" style="margin-left: -10px">
+              <CheckBoxComp :label-name="'입원예정'"></CheckBoxComp>
+            </b-col>
+            <b-col>
+              <CalendarComp v-model="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></CalendarComp>
+            </b-col>
+            <b-col style="text-align: right;margin-right: -10px">
+              <ButtonComp>조회</ButtonComp>
+            </b-col>
+          </b-row>
         </div>
+
+        <div class="hr"></div>
 
         <!-- 하단 리스트 -->
         <div class="row">
@@ -74,6 +85,11 @@
 import SelectBoxComp from '@/components/ui/SelectComp.vue';
 import { getInPatientList, getDeptList, getWardList, getDoctorList } from '@/api/qab'
 import { onMounted, ref, reactive, provide } from 'vue'
+import CalendarComp from '@/components/ui/CalendarComp.vue';
+import CheckBoxComp from '@/components/ui/CheckBoxComp.vue';
+import ButtonComp from '@/components/ui/ButtonComp.vue';
+
+provide('pageName', '입원환자명단')
 
 /**변수 선언부*/
 const selectGroupData = reactive({
@@ -183,6 +199,10 @@ const changeSelectBoxWard = async (data) => {
 
   dispData.value = await getInPatientList(param)
 }
+const changeCalendar = (data) =>{
+  selectedData.calendar = data
+}
+
 const openMenu = () => { }
 const clickedPatient = () => { }
 const setPatInfo = () => { }
@@ -190,7 +210,7 @@ const setPatInfo = () => { }
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .search-group {
     display: flex;
     flex-wrap: wrap;
@@ -218,27 +238,50 @@ const setPatInfo = () => { }
   font-size: 0.938rem;
   font-weight: 500;
   user-select: none;
-}
-
-.patient-cardbox .group {
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-  padding: 10px 15px;
-  min-height: 45px;
-  border-bottom: 1px solid #ebebeb;
-  line-height: 1;
-}
-
-.patient-cardbox .group .pos {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-flow: row wrap;
-}
-
-.patient-cardbox .group .pos .text-liner {
-  margin: 0 6px;
+  .group{
+    display: flex;
+    align-items: center;
+    flex-flow: row wrap;
+    padding: 10px 15px;
+    min-height: 45px;
+    border-bottom: 1px solid #ebebeb;
+    line-height: 1;
+    .pos{
+      flex: 1;
+      display: flex;
+      align-items: center;
+      flex-flow: row wrap;
+      .text-liner{
+        margin: 0 6px;
+      }
+    }
+    .menu{
+      margin: -3px -9px -2px -9px;
+      width: 32px;
+      height: 32px;
+      overflow: hidden;
+      text-indent: -999em;
+      background: url(../assets/ico-dotmenu.svg) center center no-repeat;
+      background-size: 3px;
+    }
+    .block{
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-between;
+      margin-right: 0;
+      padding: 5px 0;
+      width: 100%;
+      line-height: 1.2;
+    }
+    
+    .block > *:last-child {
+      margin-right: 0;
+    }
+    .name {
+      font-size: 1rem;
+      color: #004dc0;
+    }
+  }
 }
 
 .text-liner {
@@ -253,40 +296,19 @@ const setPatInfo = () => { }
   vertical-align: middle;
 }
 
-.patient-cardbox .group .menu {
-  margin: -3px -9px -2px -9px;
-  width: 32px;
-  height: 32px;
-  overflow: hidden;
-  text-indent: -999em;
-  background: url(../assets/ico-dotmenu.svg) center center no-repeat;
-  background-size: 3px;
-}
-
-.patient-cardbox .group .block {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  margin-right: 0;
-  padding: 5px 0;
-  width: 100%;
-  line-height: 1.2;
-}
-
-.patient-cardbox .group .block > *:last-child {
-  margin-right: 0;
-}
-
-.patient-cardbox .group .name {
-  font-size: 1rem;
-  color: #004dc0;
-}
-
 .right-col{
   padding-left: 0;
   padding-bottom: 12px;
 }
 p {
   margin-bottom: 0px;
+}
+
+.hr{
+  position: relative;
+  width: calc(100% + 31px);
+  margin-left: -15px;
+  height: 10px;
+  background-color: #f0f0f0;
 }
 </style>
