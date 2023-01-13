@@ -20,13 +20,13 @@
             </b-col>
           </b-row>
           <b-row align-h="between" style="margin: 12px 0;align-items: center;">
-            <b-col cols="3" style="margin-left: -10px">
+            <b-col cols="4" style="margin-left: -10px">
               <CheckBoxComp :label-name="'입원예정'"></CheckBoxComp>
             </b-col>
             <b-col>
               <CalendarComp v-model="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></CalendarComp>
             </b-col>
-            <b-col style="text-align: right;margin-right: -10px">
+            <b-col cols="3" style="text-align: right;margin-right: 3px">
               <ButtonComp>조회</ButtonComp>
             </b-col>
           </b-row>
@@ -35,7 +35,7 @@
         <div class="hr"></div>
 
         <!-- 하단 리스트 -->
-        <div class="row">
+        <div class="row" style="width: calc(100% + 28px);background-color: #f8f8f8;">
           <div class="col-12">
             <div class="py-4">
               <div class="patient-cardbox" v-for="item in dispData.value" :key="item.id">
@@ -204,7 +204,10 @@ const changeCalendar = (data) =>{
 }
 
 const openMenu = () => { }
-const clickedPatient = () => { }
+const clickedPatient = (data) => { 
+  /*TODO: 원래는 접근권한이 들어가야한다*/
+  
+}
 const setPatInfo = () => { }
 
 
