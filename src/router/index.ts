@@ -42,7 +42,27 @@ const router = createRouter({
       path: '/outPatientList',
       name: 'outPatientList',
       component: () => import('@/pages/OutPatient.vue'),
-    }
+    },
+    {
+      path: '/opPatientList',
+      name: 'opPatientList',
+      component: () => import('@/pages/OpPatient.vue'),
+    },
+    // {
+    //   path: '/emPatientList',
+    //   name: 'emPatientList',
+    //   component: () => import('@/pages/EmPatient.vue'),
+    // },
+    // {
+    //   path: '/coPatientList',
+    //   name: 'coPatientList',
+    //   component: () => import('@/pages/CoPatient.vue'),
+    // },
+    // {
+    //   path: '/rvPatientList',
+    //   name: 'rvPatientList',
+    //   component: () => import('@/pages/RvPatient.vue'),
+    // }
   ]
 })
 

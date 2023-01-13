@@ -37,7 +37,7 @@ export default defineConfig(({ command, mode }) => {
         '/adminApi': {
           target: env.VITE_ADMIN_API_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/qabApi/, ''),
+          rewrite: (path) => path.replace(/^\/adminApi/, ''),
           secure: false,
           ws: true
         },
