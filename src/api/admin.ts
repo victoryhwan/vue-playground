@@ -1,5 +1,20 @@
-// import { ref, onMounted } from 'vue'
-// import axios from 'axios';
+import axios from 'axios';
+import { axiosInstance } from '@/api/util/axiosConfig';
+
+// const testParam = {
+//     "HosCd": "37100092",
+//     "DeptCd": "2030000000",
+//     "userId": "21",
+//     "menuType": "MAIN"
+// }
+
+const proxyUrl = '/adminApi'
+export async function menuAndFac(param:any){
+    const res = await axiosInstance.get(proxyUrl+'/rest/userRoleMenus/menuAndFav', param)
+    return res.data.body
+}
+
+
 
 // const url = 'http://localhost:3000'
 
@@ -23,4 +38,3 @@
 
 
 // export { login , getUser}
-export { }

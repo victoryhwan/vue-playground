@@ -106,19 +106,20 @@
 <script setup>
 import { sideMenu } from "../../stores/store";
 import { onMounted, ref, reactive, provide } from 'vue'
+import { menuAndFac } from '@/api/admin'
 
+const menus = reactive([])
+
+let testParam = {
+    HosCd: "37100092",
+    DeptCd: "2030000000",
+    userId: "21",
+    menuType: "MAIN"
+}
 
 onMounted(async() => {
-  // const checkClassFavor = (item) => {
-  //       if( item.menuType === "FAVOR") {
-  //           return "favoritbtn-on";
-  //       }else{
-  //           return "favoritbtn";
-  //       }
-  //   }
+  menus.value = await menuAndFac(testParam)
 })
-
-
 
 
 /**
@@ -137,7 +138,9 @@ window.sideMenu = {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+$border-color : 1px solid #ddd;
+
 .icon-edit:after{
   display: inline-block;
   content:"";
@@ -249,7 +252,7 @@ ul {
   padding-left: 0px;
 }
 nav .nav-menu > ul > li {
-    border-left: 1px solid #ddd;
+    border-left: $border-color;
 }
 nav .nav-trigger {
   position: absolute;
@@ -279,12 +282,12 @@ nav .nav-header {
   padding: 0 15px;
   height: 45px;
   line-height: 45px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: $border-color;
 }
 nav .nav-info {
   padding: 20px 15px;
   height: 77px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: $border-color;
 }
 .justify-content-between {
   justify-content: space-between !important;
@@ -302,7 +305,7 @@ nav .nav-menu {
 nav .nav-menu > ul > li > a {
   position: relative;
   padding: 0 25px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: $border-color;
   line-height: 50px;
   font-weight: 500;
   font-size: 16px;
@@ -311,7 +314,7 @@ nav .nav-menu > ul > li > a {
 }
 nav .nav-menu > ul > li > a + ul a {
     position: relative;
-    border-bottom: 1px solid #ddd;
+    border-bottom: $border-color;
     line-height: 45px;
     font-weight: 400;
     font-size: 14px;
@@ -324,7 +327,7 @@ nav .nav-menu > ul > li > a + ul {
     position: relative;
     padding-left: 25px;
     background-color: #f8f8f8;
-    border-bottom: 1px solid #ddd;
+    border-bottom: $border-color;
     margin-left: -1px;
 }
 nav .nav-menu > ul > li > ul > li {
