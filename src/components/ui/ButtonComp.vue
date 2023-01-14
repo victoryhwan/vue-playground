@@ -7,7 +7,6 @@
 .btn-search{
     min-width: 75px;
     height: 40px;
-    margin-left: 5px;
     border: 1px solid #555;
     line-height: 1;
     font-size: /*15px*/0.9375rem;

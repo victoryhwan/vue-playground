@@ -23,10 +23,10 @@
             <b-col cols="4" style="margin-left: -10px">
               <CheckBoxComp :label-name="'입원예정'"></CheckBoxComp>
             </b-col>
-            <b-col>
+            <b-col cols="5">
               <CalendarComp v-model="selectedData.calendar" :disabled="selectedData.calendarDisabled" @calendar-change="changeCalendar"></CalendarComp>
             </b-col>
-            <b-col cols="3" style="text-align: right;margin-right: 3px">
+            <b-col cols="3" style="text-align: right;padding: 0px;">
               <ButtonComp>조회</ButtonComp>
             </b-col>
           </b-row>
