@@ -59,21 +59,6 @@
                   <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#listMoreInfo" aria-expanded="false" aria-controls="listMoreInfo">환자검색</a>
                   <ul class="collapse" id="listMoreInfo">
                     <li>
-                      <RouterLink to="/login" @click="sideMenu.close()">Login</RouterLink>
-                      <ul>
-                          <li>
-                              <a href="javascript:void(0)"></a>
-                              <div class="star-house favoritbtn"></div>
-                          </li>
-                        </ul>
-                    </li>
-                    <li>
-                      <RouterLink to="/" @click="sideMenu.close()">Home</RouterLink>
-                    </li>
-                    <li>
-                      <RouterLink to="/about" @click="sideMenu.close()">About</RouterLink>
-                    </li>
-                    <li>
                       <RouterLink to="/inPatientList" @click="sideMenu.close()">입원환자명단</RouterLink>
                     </li>
                     <li>
@@ -99,6 +84,23 @@
                   <ul class="collapse" id="outMoreInfo">
                     <li>
                       <RouterLink to="/outTrtPlan" @click="sideMenu.close()">외래진료일정</RouterLink>
+                    </li>
+                  </ul>
+                </li>
+
+                <li>
+                  <a class="btn btn-sm" data-bs-toggle="collapse" data-bs-target="#test" aria-expanded="false" aria-controls="test">테스트</a>
+                  <ul class="collapse" id="test">
+                    <li>
+                      <RouterLink to="/login" @click="sideMenu.close()">로그인</RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/" @click="sideMenu.close()">Home</RouterLink>
+                    </li>
+                    <li>
+                      <RouterLink to="/about" @click="sideMenu.close()">About</RouterLink>
+                      <a href="javascript:void(0)"></a>
+                      <div class="star-house favoritbtn"></div>
                     </li>
                   </ul>
                 </li>
@@ -160,25 +162,26 @@ $border-color : 1px solid #ddd;
   width: 30px;
   height: 30px;
   margin-top: -8px;
-  background: url(../../assets/ico_nav_edit.png) 0 0 no-repeat; background-size: 100%}
-  .icon-home {
-    display: inline-block;
-    position: relative;
-    width: 18px;
-    height: /*21px*/20px;
-    margin-right: 20px;
+  background: url(../../assets/ico_nav_edit.png) 0 0 no-repeat; background-size: 100%
 }
-  .icon-home:after {
-    display: inline-block;
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 18px;
-    height: /*21px*/20px;
-    margin-top: -5px;
-    background: url(../../assets/ico_nav_home.png) 0 0 no-repeat;
-    background-size: 100%;
+.icon-home {
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: /*21px*/20px;
+  margin-right: 20px;
+}
+.icon-home:after {
+  display: inline-block;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 18px;
+  height: /*21px*/20px;
+  margin-top: -5px;
+  background: url(../../assets/ico_nav_home.png) 0 0 no-repeat;
+  background-size: 100%;
 }
 .icon-setting {
     display: inline-block;
@@ -214,7 +217,15 @@ $border-color : 1px solid #ddd;
     height: 0;
     font-size: 1px;
 }
-nav .favoritbtn {
+nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1600;
+  width: 100%;
+  height: 100%;
+
+  .favoritbtn {
     display: block;
     content: '';
     position: absolute;
@@ -224,9 +235,9 @@ nav .favoritbtn {
     height: 15px;
     margin-top: -7.5px;
     background: url(../../assets/ico_favorite.png) 10px 10px no-repeat;
-}
-nav .favoritbtn-on {
-  display: block;
+  }
+  .favoritbtn-on {
+    display: block;
     content: "";
     position: absolute;
     right: 20px;
@@ -235,69 +246,138 @@ nav .favoritbtn-on {
     height: 15px;
     margin-top: -7.5px;
     background: url(../../assets/ico_favorite_on.png) 10px 10px no-repeat;
-}
-nav .nav-menu > ul > li > ul > li .star-house {
-    display: inline-block;
-    width: 50px;
-    height: 40px;
-    position: absolute;
-    top: 12px;
-    right: 0px;
-}
+  }
 
+  .on{display: block;}
+
+  .nav-trigger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.6;
+  }
+
+  .nav-wrap {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1600;
+    width: 300px;
+    height: 100%;
+  }
+
+  .nav-container {
+    width: 100%;
+    height: calc(100% - 35px);
+    margin-top: 35px;
+    background-color: #fff;
+    border-top-left-radius: 10px;
+  }
+
+  .nav-header {
+    padding: 0 15px;
+    height: 45px;
+    line-height: 45px;
+    border-bottom: $border-color;
+  }
+
+  .nav-info {
+    padding: 20px 15px;
+    height: 77px;
+    border-bottom: $border-color;
+  }
+
+  .nav-menu {
+    overflow: auto;
+    height: calc(100% - 160px);
+
+    a {
+        display: block;
+    }
+
+    > ul > li {
+      border-left: $border-color;
+    }
+
+    > ul > li > a {
+      position: relative;
+      padding: 0 25px;
+      border-bottom: $border-color;
+      line-height: 50px;
+      font-weight: 500;
+      font-size: 16px;
+      color: #000;
+      text-align: left;
+    }
+
+    > ul > li > ul > li .star-house {
+      display: inline-block;
+      width: 50px;
+      height: 40px;
+      position: absolute;
+      top: 12px;
+      right: 0px;
+    }
+
+    > ul > li > a + ul a {
+      position: relative;
+      border-bottom: $border-color;
+      line-height: 45px;
+      font-weight: 400;
+      font-size: 14px;
+      color: #222;
+    }
+
+    > ul > li > a + ul li:last-child a {
+      border-bottom: none;
+    }
+
+    > ul > li > a + ul {
+      position: relative;
+      padding-left: 25px;
+      background-color: #f8f8f8;
+      border-bottom: $border-color;
+      margin-left: -1px;
+    }
+
+    > ul > li > ul > li {
+      position: relative;
+    }
+
+  }
+  .nav-category {
+    position: relative;
+    width: 100px;
+    height: 100%;
+    padding: 20px;
+
+    li {
+     margin-bottom: 20px;
+    }
+  }
+
+  .nav-category:before {
+    display: block;
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: 0;
+    z-index: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #ddd;
+  }
+}
 a{
   text-decoration: none;
 }
-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1600;
-  width: 100%;
-  height: 100%;
-}
-nav.on{display: block;}
+// nav.on{display: block;}
 ul {
   list-style: none;
   padding-left: 0px;
-}
-nav .nav-menu > ul > li {
-    border-left: $border-color;
-}
-nav .nav-trigger {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  opacity: 0.6;
-}
-nav .nav-wrap {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 1600;
-  width: 300px;
-  height: 100%;
-}
-nav .nav-container {
-  width: 100%;
-  height: calc(100% - 35px);
-  margin-top: 35px;
-  background-color: #fff;
-  border-top-left-radius: 10px;
-}
-nav .nav-header {
-  padding: 0 15px;
-  height: 45px;
-  line-height: 45px;
-  border-bottom: $border-color;
-}
-nav .nav-info {
-  padding: 20px 15px;
-  height: 77px;
-  border-bottom: $border-color;
 }
 .justify-content-between {
   justify-content: space-between !important;
@@ -308,66 +388,8 @@ nav .nav-info {
 .d-flex {
   display: flex !important;
 }
-nav .nav-menu {
-    overflow: auto;
-    height: calc(100% - 160px);
-}
-nav .nav-menu > ul > li > a {
-  position: relative;
-  padding: 0 25px;
-  border-bottom: $border-color;
-  line-height: 50px;
-  font-weight: 500;
-  font-size: 16px;
-  color: #000;
-  text-align: left;
-}
-nav .nav-menu > ul > li > a + ul a {
-    position: relative;
-    border-bottom: $border-color;
-    line-height: 45px;
-    font-weight: 400;
-    font-size: 14px;
-    color: #222;
-}
-nav .nav-menu > ul > li > a + ul li:last-child a {
-    border-bottom: none;
-}
-nav .nav-menu > ul > li > a + ul {
-    position: relative;
-    padding-left: 25px;
-    background-color: #f8f8f8;
-    border-bottom: $border-color;
-    margin-left: -1px;
-}
-nav .nav-menu > ul > li > ul > li {
-    position: relative;
-}
-nav .nav-category {
-  position: relative;
-  width: 100px;
-  height: 100%;
-  padding: 20px;
-}
-nav .nav-menu a {
-    display: block;
-}
-nav .nav-category li {
-  margin-bottom: 20px;
-}
 .collapsed > .when-open,
 .not-collapsed > .when-closed {
   display: none;
-}
-nav .nav-category:before {
-    display: block;
-    content: "";
-    position: absolute;
-    right: -1px;
-    top: 0;
-    z-index: 0;
-    width: 1px;
-    height: 100%;
-    background-color: #ddd;
 }
 </style>
