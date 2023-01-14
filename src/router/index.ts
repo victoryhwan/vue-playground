@@ -19,34 +19,34 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: () => import('@/pages/HomeView.vue'),
+      component: () => import('@/pages/test/HomeView.vue'),
       beforeEnter:requireAuth
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/pages/LoginView.vue')
+      component: () => import('@/pages/common/LoginView.vue')
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('@/pages/AboutView.vue'),
+      component: () => import('@/pages/test/AboutView.vue'),
       beforeEnter:requireAuth
     },
     {
       path: '/inPatientList',
       name: 'inPatientList',
-      component: () => import('@/pages/InPatient.vue'),
+      component: () => import('@/pages/patientList/InPatient.vue'),
     },
     {
       path: '/outPatientList',
       name: 'outPatientList',
-      component: () => import('@/pages/OutPatient.vue'),
+      component: () => import('@/pages/patientList/OutPatient.vue'),
     },
     {
       path: '/opPatientList',
       name: 'opPatientList',
-      component: () => import('@/pages/OpPatient.vue'),
+      component: () => import('@/pages/patientList/OpPatient.vue'),
     },
     // {
     //   path: '/emPatientList',
