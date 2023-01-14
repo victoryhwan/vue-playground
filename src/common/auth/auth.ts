@@ -27,9 +27,9 @@ function timerHandler(){
       cookies.remove('otpResult')
       cookies.remove('SCOUTER')
       userStore.setUser(<UserInfo>JSON.parse('{}'))
-      
+
       router.push("/login")
-    }, 5000)//time*60*1000
+    }, time*60*1000)
   }else{
     if (timer) {//이전 타이머 clear
       clearTimeout(timer);
