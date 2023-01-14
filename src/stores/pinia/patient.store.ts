@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import type { PatientInfo } from '@/types/patient'
 
-export const usePatientrStore = defineStore('patient',{
+export const usePatientrStore = defineStore('patientStore',{
     state: () => ({ 
         patient: <PatientInfo>{}
     }),

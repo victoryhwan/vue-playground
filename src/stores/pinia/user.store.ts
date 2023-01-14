@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import type { UserInfo } from '@/types/user'
 
-export const useUserStore = defineStore('user',{
+export const useUserStore = defineStore('userStore',{
     state: () => ({
         user: <UserInfo>JSON.parse(localStorage.getItem('mplus.doLogin') || '{}'),
     }),
