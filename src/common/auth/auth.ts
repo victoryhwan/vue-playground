@@ -1,7 +1,11 @@
 import router from "@/router";
 import { useCookies } from "vue3-cookies";
+import { useUserStore } from '@/stores/pinia/user.store';
+import type { UserInfo } from '@/types/user'
 
 const { cookies } = useCookies();
+const userStore = useUserStore()
+
 let timer:any = null;
 let time:number = 0;
 let isLogin:boolean = true;
@@ -22,9 +26,10 @@ function timerHandler(){
       cookies.remove('refreshToken')
       cookies.remove('otpResult')
       cookies.remove('SCOUTER')
-
+      userStore.setUser(<UserInfo>JSON.parse('{}'))
+      
       router.push("/login")
-    }, time*60*1000)
+    }, 5000)//time*60*1000
   }else{
     if (timer) {//이전 타이머 clear
       clearTimeout(timer);
