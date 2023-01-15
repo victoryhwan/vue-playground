@@ -84,7 +84,7 @@
 <script setup>
 import SelectBoxComp from '@/components/ui/SelectComp.vue';
 import { getInPatientList, getDeptList, getWardList, getDoctorList } from '@/api/qab'
-import { getPatientInfo } from '@/api/mplus4/patientInfo'
+import getPatientInfo from '@/api/mplus4/patientInfo'
 import { onMounted, reactive, provide } from 'vue'
 import CalendarComp from '@/components/ui/CalendarComp.vue';
 import CheckBoxComp from '@/components/ui/CheckBoxComp.vue';
