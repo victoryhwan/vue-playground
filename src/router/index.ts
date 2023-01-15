@@ -48,6 +48,11 @@ const router = createRouter({
       name: 'opPatientList',
       component: () => import('@/pages/patientList/OpPatient.vue'),
     },
+    {
+      path: '/detailPatient',
+      name: 'detailPatient',
+      component: () => import('@/pages/patientList/DetailPatient.vue'),
+    },
     // {
     //   path: '/emPatientList',
     //   name: 'emPatientList',
