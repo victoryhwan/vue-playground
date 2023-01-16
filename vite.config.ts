@@ -12,6 +12,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const apiVersion:string = `/${env.VITE_QAB_API_VERSION}`
   return {
+    base: env.VITE_BASE_URL,
     plugins: [vue()],
     resolve: {
       alias: {

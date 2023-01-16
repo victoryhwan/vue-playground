@@ -13,7 +13,7 @@ import VCalendar from 'v-calendar';
 // const pinia = createPinia()
 const app = createApp(App)
                 // .use(initFunc)
-                .use(globalFunc.init)
+                .use(globalFunc.toNative)
                 .use(BootstrapVue3)
                 .use(pinia)
                 .use(router)
