@@ -132,8 +132,8 @@ import { reactive, onMounted } from 'vue';
 //     patient: Array
 // })
 
-// let patient = usePatientrStore().getPatient()
-let patient = JSON.parse(localStorage.getItem('mplus.tempPatientParam'))
+const patient = usePatientrStore().patient.info
+// let patient = JSON.parse(localStorage.getItem('mplus.tempPatientParam'))
 let iconCnt = reactive(0)
 let isUpDownIcon = reactive(false)
 let patDischargeData = reactive([])

@@ -218,9 +218,10 @@ let patParam = {
   "UnitNo" : "CqK0cBXugQsoGbh0j5wdwp+/2/4ASFskGPXz2T2BVgl3laOQKvOSIXyGrIQkx2VdRpSjDEMH6z/24rqbx5EuiXAsooa1jEodTRsHBAe7OMZfpBJg+mENFFDXRg37oFn9H5xgvaieUTZlitvgrSeI+iVk3UMYVwJC0zbOxtahg+8=",
   "UserId" : "Q9ni/g5htoxaGZNtnqpvN03XZIFgXNNj4ko9iWxyOIxRutQYqLtRngnsHDSRnUNRT5/WZXXF47At2BarGwgVo31jerw2YfEmYauPSOaB2K0+KZlfwdBtyv3DjJe+oSXKMrwGIx8JXUh8DpbHX3THb9XwDZ1/bncolSHBo6gDKMM="
 }
-
+const patientrStore = usePatientrStore()
 const clickedPatient = async (data) => {
-  await usePatientrStore().setPatient(patParam)
+  const res = await patientrStore.setPatient(patParam)
+  console.log('res',res)
   /*TODO: 원래는 접근권한이 들어가야한다*/
   // let res = await getPatientInfo(patParam)
   // if(res){

@@ -18,6 +18,9 @@
         <div>
           <!-- 진료 정보 rotation -->
           <InfoMenu></InfoMenu>
+          <div>AdmiDt: {{ patientStore.patient.info.AdmiDt }}</div>
+          <div>UnitNo : {{ patientStore.patient.info.UnitNo }}</div>
+          <div>UserNm : {{ userStore.user.UserNm }}</div>
         </div>
       </div>
     </div>
@@ -25,12 +28,14 @@
 </template>
 <script setup>
 import { usePatientrStore } from '@/stores/pinia/patient.store';
+import { useUserStore } from '@/stores/pinia/user.store';
 import { getPatientInfo, getPatSummary } from '@/api/mplus4/patientInfo'
 import InPatientCard from '../../components/patientInfo/InPatientCard.vue';
 import InfoMenu from '../../components/patientInfo/InfoMenu.vue';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
-const patient = usePatientrStore()
+const patientStore = usePatientrStore()
+const userStore = useUserStore()
 
 let patParam = {
   "ChosGb" : "I",
@@ -47,7 +52,8 @@ let patParam = {
 
 onMounted(async() => {
   // await patient.setPatient(patParam)
-  console.log(localStorage.getItem('mplus.tempPatientParam'),"1111111111")
+  // console.log(localStorage.getItem('mplus.tempPatientParam'),"1111111111")
+  console.log(JSON.stringify(patientStore.patient.info.AdmiDt))
 })
 /*
 //액션 후촐 외에도 직접 내부 API로 데이터 변경 가능.

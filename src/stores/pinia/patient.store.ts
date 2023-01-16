@@ -8,12 +8,16 @@ const proxyUrl = '/qabApi'
 const version = ''
 
 export const usePatientrStore = defineStore('patientStore', ()=> {
-    let patient:any = reactive([])//reactive(<PatientInfo>{});
+    const patient:any = reactive({
+        info:{}
+    })//reactive(<PatientInfo>{});
     async function setPatient(param:any){//val: PatientInfo
-        patient = await axiosInstance.post(proxyUrl+'/get_getPatientInfo'+version ,param)
-        localStorage.setItem("mplus.tempPatientParam", JSON.stringify(patient.data.body));
-        return patient.data.body
+        const res = await axiosInstance.post(proxyUrl+'/get_getPatientInfo'+version ,param)
+        localStorage.setItem("mplus.tempPatientParam", JSON.stringify(res.data.body));
+        patient.info = res.data.body
+        return true
     }
-    const getPatient = computed(()=> console.log(patient,"patient11111111"))
-    return { patient, setPatient, getPatient }
+
+    // const getPatient = computed(()=> console.log(patient,"patient11111111"))
+    return { patient, setPatient }
 })
