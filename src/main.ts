@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import {pinia} from '@/stores/pinia'
 import VCalendar from 'v-calendar';
+// import crypto from 'crypto-js'
 
 // const pinia = createPinia()
 const app = createApp(App)
@@ -18,5 +19,5 @@ const app = createApp(App)
                 .use(pinia)
                 .use(router)
                 .use(VCalendar, {})
-
+                // .use(crypto)
 app.mount('#app')

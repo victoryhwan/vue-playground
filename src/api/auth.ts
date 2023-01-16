@@ -4,6 +4,7 @@ import { useCookies } from "vue3-cookies";
 import { useUserStore } from '@/stores/pinia/user.store';
 
 const { cookies } = useCookies();
+import sha256 from 'crypto-js/sha256';
 
 const testParam = {
     "appId": "1",
@@ -17,7 +18,7 @@ const testParam = {
     "platformType": "PC",
     "pushToken": "adsfasdfadsfaf",
     "userAccount": "E00005",
-    "userPwd": "a9d42fd45a3d3aac89d58e94e2908a5474a5151dd65d0eaf4107e65450e03ba3",
+    "userPwd": sha256('1111').toString().toLowerCase(), //"a9d42fd45a3d3aac89d58e94e2908a5474a5151dd65d0eaf4107e65450e03ba3",
     "uuid": "E00005"
   }
 const proxyUrl = "/authApi"
