@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid patient-list">
+  <!-- <div class="container-fluid patient-list"> -->
     <div class="container-fluid round bgnone" v-cloak>
       <section class="row content-wrap">
-        <div class="col-12 content graybox">
+        <div class="col-12 content">
 
         <!-- 상단 조회조건 -->
         <div class="search">
@@ -54,7 +54,7 @@
                   <div class="group">
                       <div class="pos">
                         <span class="badge2 badge-color5">{{item.OpCntrNm}}</span>
-                        <!-- <span :class="setStatCls(item.OpProgStus)">{{item.OpRoomCd}} / {{item.OpSeq}} / {{item.OpProgStusNm}}</span> -->
+                        <span :class="setStatCls(item.OpProgStus)">{{item.OpRoomCd}} / {{item.OpSeq}} / {{item.OpProgStusNm}}</span>
                         <span class="badge2 badge-out-color2" v-if="item.SyncOpMainSub === 'M'">주</span>
                         <span class="badge2 badge-out-color3" v-else-if="item.SyncOpMainSub === 'S'">
                             <i class="icon-link"></i>
@@ -70,7 +70,7 @@
                           <span class="text-liner"></span>
                           {{item.PatBed}}
                       </div>
-                      <p>{{item.AnsGbNm}}</p>
+                      <p style="margin-right:0">{{item.AnsGbNm}}</p>
                   </div>
 
                   <div class="group" @click.stop="clickedPatient(item)">
@@ -79,8 +79,7 @@
                       </div>
                       <div class="block">
                           <p class="doctor">{{item.DeptNm}} <span class="text-liner"></span> {{item.DrNm}}</p>
-                          <p>{{item.OpDt}}</p>
-                          <!-- <p>{{dateFormatter(item.OpDt)}}</p> -->
+                          <p>{{dateFormatter(item.OpDt)}}</p>
                       </div>
                   </div>
                   <div class="group" v-if="isAnsDep">
@@ -102,7 +101,7 @@
         </div>
       </section>
     </div>
-  </div>
+ 
 </template>
 
 <script setup>
@@ -131,6 +130,8 @@ const selectedData = reactive({ //조회조건 데이터
     calendarDisabled : true,
     checked : false
 })
+
+const isAnsDep = ref(false)
 
 let param = {
   HosCd: "37100092",
@@ -253,6 +254,72 @@ const changeSelectBoxOpProgStus = async (data) => {
   dispData.value = await getOpPatientList(param)
 }
 
+const changeCalendar = (data) => {
+  selectedData.calendar = data
+}
+
+const myChangeOrder = (data) => {
+  selectedData.selectedOrder = data
+}
+
+const setStatCls = (stateVal) => {
+  return {
+    'badge2': true,
+    'badge-color4': stateVal === 'A',
+    'badge-color1': stateVal === 'B'
+  }
+}
+
+
+const dateFormatter = (dateStr) => {
+    if (!dateStr) { return ''; }
+
+    dateStr = dateStr.replace(/[^0-9]/g, '');
+    let format = ''
+    if(dateStr.length === 8){//yyyymmdd
+        format = 'YYYY-MM-DD'
+    }else if(dateStr.length === 12){//yyyymmddhhmm
+        format = 'YYYY-MM-DD hh:mm'
+    }else if(dateStr.length === 14){//yyyymmddhhmmss
+        format = 'YYYY-MM-DD hh:mm:ss'
+  } 
+   return getDateFormatterStr(dateStr, format)
+}
+
+const getDateFormatterStr = (dateStr, format) =>{
+  if(!dateStr || dateStr === ''){
+            return ''
+        }
+        let year = dateStr.substr(0, 4)
+        let month = dateStr.substr(4, 2)
+        let day = dateStr.substr(6, 2)
+
+        if(format === 'YYYY-MM-DD'){
+            return `${year}-${month}-${day}`
+        }else if(format === 'YYYY-MM-DD hh:mm'){
+            let hour = dateStr.substr(8, 2)
+            let minute = dateStr.substr(10, 2)
+            return `${year}-${month}-${day} ${hour}:${minute}`
+        }else if(format === 'YYYY-MM-DD hh:mm:ss'){
+            let hour = dateStr.substr(8, 2)
+            let minute = dateStr.substr(10, 2)
+            let second = dateStr.substr(12, 2)
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+        } else if(format === 'hh:mm'){
+            let hour = dateStr.substr(0, 2)
+            let minute = dateStr.substr(2, 4)
+            return `${hour}:${minute}`
+        }else if(format === 'YYYY/MM/DD hh:mm:ss'){
+            let hour = dateStr.substr(8, 2)
+            let minute = dateStr.substr(10, 2)
+            let second = dateStr.substr(12, 2)
+            return `${year}/${month}/${day} ${hour}:${minute}:${second}`
+        }else{
+            return dateStr
+        }
+}
+
+
 const openMenu = () => { }
 const clickedPatient = () => { }
 const setPatInfo = () => { }
@@ -261,6 +328,13 @@ const setPatInfo = () => { }
 </script>
 
 <style scoped>
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
 .search-group {
     display: flex;
     flex-wrap: wrap;
@@ -270,6 +344,14 @@ const setPatInfo = () => { }
     width: 100%;
     height: 80px;
     box-shadow: 0 0 4px black;
+}
+.content-wrap {
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+}
+.round .content-wrap {
+    border-top-right-radius: 15px;
 }
 .patient-list {
   /*top: 80px;*/
@@ -288,6 +370,9 @@ const setPatInfo = () => { }
   font-size: 0.938rem;
   font-weight: 500;
   user-select: none;
+}
+.patient-cardbox p {
+  font-weight: 600;
 }
 
 .patient-cardbox .group {
@@ -329,7 +414,7 @@ const setPatInfo = () => { }
   height: 32px;
   overflow: hidden;
   text-indent: -999em;
-  background: url(../assets/ico-dotmenu.svg) center center no-repeat;
+  background: url(../../assets/ico-dotmenu.svg) center center no-repeat;
   background-size: 3px;
 }
 
@@ -351,7 +436,15 @@ const setPatInfo = () => { }
   font-size: 1rem;
   color: #004dc0;
 }
-
+.content {
+    overflow: auto;
+    height: 100%;
+    margin-top: 15px;
+}
+.col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
 .right-col{
   padding-left: 0;
   padding-bottom: 12px;
@@ -398,5 +491,37 @@ input{
     line-height: inherit;
     font-size: 0.875rem !important;
 }
+.patient-cardbox:first-child {
+    margin-top: 0;
+}
+.patient-cardbox .group > * {
+    margin-right: 0.875rem;
+}
+.patient-cardbox .group .badge2, .patient-cardbox .group .badge3 {
+    margin: 2px 6px 2px 0;
+}
+.badge-color5 {
+    border-color: #7787D6 !important;
+    background-color: #7787D6 !important;
+}
 
+.badge2 {
+    padding: 0 0.25rem;
+    min-width: 25px;
+    min-height: 25px;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    line-height: 23px;
+}
+.badge2, .badge3 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    white-space: nowrap;
+    border: 1px solid #999;
+    background-color: #999;
+    text-align: center;
+    color: #fff;
+}
 </style>
