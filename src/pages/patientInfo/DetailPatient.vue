@@ -26,8 +26,8 @@
 <script setup>
 import { usePatientrStore } from '@/stores/pinia/patient.store';
 import { getPatientInfo, getPatSummary } from '@/api/mplus4/patientInfo'
-import InPatientCard from './InPatientCard.vue';
-import InfoMenu from './InfoMenu.vue';
+import InPatientCard from '../../components/patientInfo/InPatientCard.vue';
+import InfoMenu from '../../components/patientInfo/InfoMenu.vue';
 import { onMounted } from 'vue';
 
 const patient = usePatientrStore()
