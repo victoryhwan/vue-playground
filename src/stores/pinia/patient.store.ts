@@ -9,7 +9,7 @@ const version = ''
 
 export const usePatientrStore = defineStore('patientStore', ()=> {
     const patient:any = reactive({
-        info:{}
+        info:<PatientInfo>JSON.parse(localStorage.getItem('mplus.tempPatientParam') || '{}')
     })//reactive(<PatientInfo>{});
     async function setPatient(param:any){//val: PatientInfo
         const res = await axiosInstance.post(proxyUrl+'/get_getPatientInfo'+version ,param)
