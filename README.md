@@ -31,12 +31,14 @@ npm install
 
 ```sh
 npm run dev
+npm run prod
 ```
 
 ### Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
+npm run build --mode dev
 ```
 
 ### Lint with [ESLint](https://eslint.org/)

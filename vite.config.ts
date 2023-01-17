@@ -6,10 +6,14 @@ import vue from '@vitejs/plugin-vue'
 
 // // https://vitejs.dev/config/
 dns.setDefaultResultOrder('verbatim')
+
 export default defineConfig(({ command, mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '')
+  console.log(mode,"2222222222222")
+  console.log(`${env.VITE_BASE_URL}`,"33333333")
+
   const apiVersion:string = `/${env.VITE_QAB_API_VERSION}`
   return {
     base: env.VITE_BASE_URL,
@@ -43,6 +47,9 @@ export default defineConfig(({ command, mode }) => {
           ws: true
         },
       }
+    },
+    build:{
+      
     },
     // vite config
     define: {
