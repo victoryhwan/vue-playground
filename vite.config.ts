@@ -49,7 +49,7 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     build:{
-      
+      chunkSizeWarningLimit: 1600
     },
     // vite config
     define: {
