@@ -91,8 +91,13 @@ import CalendarComp from '@/components/ui/CalendarComp.vue';
 import CheckBoxComp from '@/components/ui/CheckBoxComp.vue';
 import ButtonComp from '@/components/ui/ButtonComp.vue';
 import { usePatientrStore } from '@/stores/pinia/patient.store';
+import { storeToRefs } from "pinia";
 
-provide('pageName', '입원환자명단')
+usePatientrStore().delPatient()
+
+localStorage.setItem('mplus.pageName','입원환자명단');
+// localStorage.removeItem('mplus.tempPatientParam');
+// provide('pageName', '입원환자명단')
 
 /**변수 선언부*/
 const selectGroupData = reactive({
@@ -208,20 +213,7 @@ const changeCalendar = (data) =>{
 
 const openMenu = () => { }
 
-let patParam = {
-  "ChosGb" : "I",
-  "ChosNo" : "20230111001",
-  "DeptCd" : "2030000000",
-  "DrId" : "190046",
-  "HosCd" : "37100092",
-  "OcpTyp" : "0330",
-  "UnitNo" : "CqK0cBXugQsoGbh0j5wdwp+/2/4ASFskGPXz2T2BVgl3laOQKvOSIXyGrIQkx2VdRpSjDEMH6z/24rqbx5EuiXAsooa1jEodTRsHBAe7OMZfpBJg+mENFFDXRg37oFn9H5xgvaieUTZlitvgrSeI+iVk3UMYVwJC0zbOxtahg+8=",
-  "UserId" : "Q9ni/g5htoxaGZNtnqpvN03XZIFgXNNj4ko9iWxyOIxRutQYqLtRngnsHDSRnUNRT5/WZXXF47At2BarGwgVo31jerw2YfEmYauPSOaB2K0+KZlfwdBtyv3DjJe+oSXKMrwGIx8JXUh8DpbHX3THb9XwDZ1/bncolSHBo6gDKMM="
-}
-const patientrStore = usePatientrStore()
 const clickedPatient = async (data) => {
-  const res = await patientrStore.setPatient(patParam)
-  console.log('res',res)
   /*TODO: 원래는 접근권한이 들어가야한다*/
   // let res = await getPatientInfo(patParam)
   // if(res){

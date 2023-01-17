@@ -112,6 +112,9 @@ import CalendarComp from '@/components/ui/CalendarComp.vue';
 import CheckBoxComp from '@/components/ui/CheckBoxComp.vue';
 import ButtonComp from '@/components/ui/ButtonComp.vue';
 
+localStorage.setItem('mplus.pageName','수술환자명단');
+localStorage.removeItem('mplus.tempPatientParam');
+
 /**변수 선언부*/
 const selectGroupData = reactive({
   deptList:[],

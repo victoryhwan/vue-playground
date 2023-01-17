@@ -1,13 +1,31 @@
-<script setup lang="ts">
+<script setup>
 import { RouterView } from 'vue-router'
 import SideMenu from './components/common/SideMenu.vue'
 import HeaderComp from './components/common/HeaderComp.vue';
+import HeaderCard from './components/patientInfo/HeaderCard.vue';
+import { usePatientrStore } from '@/stores/pinia/patient.store';
+import { storeToRefs } from "pinia";
+import { watch, onMounted } from 'vue';
+
+const pinia = usePatientrStore()
+
+const { getPatient } = storeToRefs(pinia)
+
+onMounted(()=>{
+  console.log(getPatient,"222222222222")
+  watch(pinia, (newX) => {
+    console.log(`111111111111${newX}`)
+  })
+})
+
+
 </script>
 
 <template>
-
   <!--  * layout start -->
   <HeaderComp/>
+  <div v-if="getPatient"><HeaderCard/></div>
+  
   <main>
     <RouterView/>
   </main>

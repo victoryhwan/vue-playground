@@ -6,7 +6,8 @@
   
   <script setup>
   import { inject } from 'vue'
-  const pageName = inject('pageName')
+//   const pageName = inject('pageName')
+const pageName = localStorage.getItem('mplus.pageName')
   </script>
 
   <style>

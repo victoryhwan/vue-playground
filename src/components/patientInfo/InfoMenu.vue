@@ -5,16 +5,18 @@
             <div th:text="#{mplus.view.clnInfo}">진료정보</div>
         </div>
         <div class="medicine" id="columns">
-            <!-- <a class="medicine-item" :class="item.icon" :data-link='item.url' draggable="true" v-for="(item,index) in treatMenu" @click="columnsClk(item)">
+            <a class="medicine-item" :class="item.icon" :data-link='item.url' draggable="true" v-for="(item,index) in treatMenu" :key="index" @click="columnsClk(item)">
                 <div class="img"></div>
                 {{item.title}}
-            </a> -->
+            </a>
         </div>
     </div>
 </template>
 <script setup>
-const treatMenu = []
-const param = null
+import router from "@/router";
+import { onMounted, reactive } from 'vue'
+
+let treatMenu = reactive([])
 const menuList = [
     {
         title : '임상관찰',
@@ -66,17 +68,50 @@ const menuList = [
     },
 ]
 
+const patDetailMenusS = ["vitalList","examResult","recordList","treatmentList","prescriptionList","csHistoryList"]
+const patDetailMenusN = ["vitalList","examResult","recordList","treatmentList","prescriptionList","csHistoryList"]
+const patDetailMenusOthers = ["vitalList","examResult","recordList","treatmentList","prescriptionList","csHistoryList"]
+
 //getMenuList
-const columnsClk = () => {
+const columnsClk = (clickItem) => {
+    /**내부망 체크*/
     // let check = await Lemonhc.commonFn.ipCheckMenu(clickItem.url)
     // if(!check){
     //     return false
     // }
 
-    // this.treatMenu.forEach((item, menuIndex) => {
-    //     if (item.url === clickItem.url) {
-    //         location.href = LemonhcRouter.local + item.url + "?index=" + menuIndex;
+    treatMenu.forEach((item, menuIndex) => {
+        if (item.url === clickItem.url) {
+            router.push({name: item.url , query: {index: menuIndex}})
+        }
+    })
+}
+
+const getMenuList = () => {
+    // const ocpTyp = localStorage.getItem('mplus.doLogin').OcpTyp
+    // let usePages = []
+    // let resultPages = []
+
+    // if(ocpTyp === 'S') {
+    //     usePages = JSON.parse(patDetailMenusS)
+    // } else if(ocpTyp === 'N') {
+    //     usePages = JSON.parse(patDetailMenusN)
+    // } else {
+    //     usePages = JSON.parse(patDetailMenusOthers)
+    // }
+    // usePages.forEach((pageId)=>{
+    //     let idx = _.findIndex(menuList, (o)=>{
+    //         return o.id === pageId
+    //     })
+    //     if(idx >= 0){
+    //         resultPages.push(menuList[idx])
     //     }
     // })
+    // return resultPages
 }
+
+onMounted(async() => {
+    treatMenu = getMenuList()
+})
+
 </script>

@@ -2,9 +2,6 @@
   <div class="container-fluid round" v-cloak>
     <div class="row content-wrap">
       <div class="col-12 content">
-        <div>
-          <!-- 상단 환자 정보 카드 -->
-        </div>
         <div class="row">
           <div class="col-12 patient-panel-container">
           <InPatientCard></InPatientCard>

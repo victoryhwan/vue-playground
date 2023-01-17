@@ -1,4 +1,7 @@
 <template>
+    <div>
+        {{ patient }}
+    </div>
     <div class="panel panel-chart panel-inpatient">
         <div class="panel-header">
             입원
@@ -127,12 +130,30 @@
 </template>
 <script setup>
 import { usePatientrStore } from '@/stores/pinia/patient.store';
+import { storeToRefs } from "pinia";
 import { reactive, onMounted } from 'vue';
+
+let patParam = {
+  "ChosGb" : "I",
+  "ChosNo" : "20230111001",
+  "DeptCd" : "2030000000",
+  "DrId" : "190046",
+  "HosCd" : "37100092",
+  "OcpTyp" : "0330",
+  "UnitNo" : "CqK0cBXugQsoGbh0j5wdwp+/2/4ASFskGPXz2T2BVgl3laOQKvOSIXyGrIQkx2VdRpSjDEMH6z/24rqbx5EuiXAsooa1jEodTRsHBAe7OMZfpBJg+mENFFDXRg37oFn9H5xgvaieUTZlitvgrSeI+iVk3UMYVwJC0zbOxtahg+8=",
+  "UserId" : "Q9ni/g5htoxaGZNtnqpvN03XZIFgXNNj4ko9iWxyOIxRutQYqLtRngnsHDSRnUNRT5/WZXXF47At2BarGwgVo31jerw2YfEmYauPSOaB2K0+KZlfwdBtyv3DjJe+oSXKMrwGIx8JXUh8DpbHX3THb9XwDZ1/bncolSHBo6gDKMM="
+}
+
 // const props = defineProps({
 //     patient: Array
 // })
 
-const patient = usePatientrStore().patient.info
+// const patient = usePatientrStore().patient.info
+const pinia = usePatientrStore()
+pinia.setPatient(patParam)
+const { getPatient } = storeToRefs(pinia)
+const patient = getPatient
+
 // let patient = JSON.parse(localStorage.getItem('mplus.tempPatientParam'))
 let iconCnt = reactive(0)
 let isUpDownIcon = reactive(false)
@@ -143,7 +164,8 @@ const patOperation = []
 const dscPlanYmdData = ''
 const admiDtData = ''
 
-onMounted(()=>{
+onMounted(async ()=>{
+    console.log("0000000000000000000",patient.value)
     // getPatDiagnosis();
     // getPatOperation();
     // getPatDischarge();   //patDischargeCallback()
